@@ -39,6 +39,7 @@ void draw()
         if(dir == 1)translate(0,-10);
         if(dir == 2)translate(-10,0);
         if(dir == 3)translate(0,10);
+        if(k== 1 && a%2 ==0 && j == a-1)translate(0,0,-10);
         box(10);
       }
       println(a);
@@ -46,9 +47,6 @@ void draw()
       if(k ==2){
         a++;
         k = 0;
-        if(a%2==0){
-        translate(0,0,-10);
-        }
       }
       if(dir == 3){
          dir = 0;

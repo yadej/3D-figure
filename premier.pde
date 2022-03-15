@@ -25,6 +25,40 @@ void setup()
   }
 }
 
+void draw()
+{
+    perspective();
+    translate(width/2,height/2, 100);
+    box(10);
+    int a = 1;
+    int k = 0;
+    int dir = 0;
+    for(int i = 1; i<50; i++){
+      for(int j = 0; j < a ;j++){
+        if(dir == 0)translate(10,0);
+        if(dir == 1)translate(0,-10);
+        if(dir == 2)translate(-10,0);
+        if(dir == 3)translate(0,10);
+        box(10);
+      }
+      println(a);
+      k++;
+      if(k ==2){
+        a++;
+        k = 0;
+        if(a%2==0){
+        translate(0,0,-10);
+        }
+      }
+      if(dir == 3){
+         dir = 0;
+       }else{
+          dir++;
+       }
+      
+    }
+ 
+}
 
 
 /*void construitFigure()

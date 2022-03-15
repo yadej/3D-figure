@@ -1,6 +1,6 @@
 void setup()
 {
-  size(400,400);
+  size(400,400, P3D);
   println("hello world");
   int a = 5;
   println(estPremier(a));

@@ -1,6 +1,7 @@
 void setup()
 {
-  size(400,400, P3D);
+  size(1000,1000, P3D);
+  frameRate(10);
   println("hello world");
   int a = 5;
   println(estPremier(a));
@@ -26,23 +27,37 @@ void setup()
 }
 
 void draw()
-{
-    perspective();
-    translate(width/2,height/2, 100);
-    box(10);
+{    
+
+    //rotateX(frameCount/50.0);
+    rotateX(PI/6);
+    translate(width/2,height/2, 90);
+    fill(0,0,0);
+    box(20);
     int a = 1;
+    int n = 2;
     int k = 0;
     int dir = 0;
     for(int i = 1; i<50; i++){
+      if(i == 49)a--;
       for(int j = 0; j < a ;j++){
-        if(dir == 0)translate(10,0);
-        if(dir == 1)translate(0,-10);
-        if(dir == 2)translate(-10,0);
-        if(dir == 3)translate(0,10);
-        if(k== 1 && a%2 ==0 && j == a-1)translate(0,0,-10);
-        box(10);
+        if(dir == 0)translate(20,0);
+        if(dir == 1)translate(0,-20);
+        if(dir == 2)translate(-20,0);
+        if(dir == 3)translate(0,20);
+        if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
+        if(estParfait(n)){
+          fill(0,255,0);
+        }else if(estPremier(n)){
+          fill(255,255,0);
+        }else if(estAbondant(n)){
+          fill(0,0,255);
+        }else if(estDefaillant(n)){
+          fill(255,0,0);
+        }
+        box(20);
+        n++;
       }
-      println(a);
       k++;
       if(k ==2){
         a++;
@@ -53,7 +68,6 @@ void draw()
        }else{
           dir++;
        }
-      
     }
  
 }
@@ -144,4 +158,7 @@ boolean estPremier(int n)
 boolean estParfait(int n)
 {
   return sd(n) == 2*n;
+}
+boolean estDefaillant(int n){
+  return sd(n) < 2 * n;
 }

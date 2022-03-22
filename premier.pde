@@ -1,3 +1,5 @@
+PGraphics pg;
+PImage txtImg;
 int n1 = 0;
 int n2 = 1; 
 int n3 = 0;
@@ -8,6 +10,7 @@ int n6 = 0;
 void setup()
 {
   size(1000,1000, P3D);
+  pg = createGraphics(300,300,P2D);
   textSize(32);
   frameRate(10);
   println("hello world");
@@ -62,21 +65,42 @@ void draw()
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
     translate(width/2,height/2, 90);
-    fill(0,0,0);
+    if(estNeg(f1(1))){
+          fill(0,0,0);
+        }else if(estParfait(f1(0))){
+          fill(0,255,0);
+        }else if(estPremier(f1(0))){
+          fill(255,255,0);
+        }else if(estAbondant(f1(0))){
+          fill(0,0,255);
+        }else if(estDefaillant(f1(0))){
+          fill(255,0,0);
+        }
     myBox(20);
     int a = 1;
-    int n = 2;
+    int n = 1;
     int k = 0;
     int dir = 0;
     for(int i = 1; i<50; i++){
       if(i == 49)a--;
+       pushStyle();
+      noFill();
+    stroke(0,255,0);
+    // make an image with clock text
+      String s = "" + f1(n);
+      txtImg = textImager(s, pg);
+        // draw the image on a cube
+      textureCube(txtImg);
+  popStyle();
       for(int j = 0; j < a ;j++){
         if(dir == 0)translate(20,0);
         if(dir == 1)translate(0,-20);
         if(dir == 2)translate(-20,0);
         if(dir == 3)translate(0,20);
         if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
-        if(estParfait(f1(n))){
+        if(estNeg(f1(n))){
+          fill(0,0,0);
+        }else if(estParfait(f1(n))){
           fill(0,255,0);
         }else if(estPremier(f1(n))){
           fill(255,255,0);
@@ -101,7 +125,41 @@ void draw()
     }
  
 }
-
+PImage textImager(String s, PGraphics pg) {
+  pg.beginDraw();
+  pg.background(0,0,0);
+  pg.textAlign(CENTER);
+  pg.fill(255);
+  pg.textSize(128);
+  pg.text(s, 10, 10);
+  pg.endDraw();
+  return pg.get();
+}
+void textureCube(PImage img) {
+  // draw six faces
+  textureFace(img, 0, 0, 0);
+  textureFace(img, 0,-HALF_PI, 0);
+  textureFace(img, 0, HALF_PI, 0);
+  textureFace(img, 0, PI, 0);
+  textureFace(img, -HALF_PI, 0, 0);
+  textureFace(img,  HALF_PI, 0, 0);
+}
+void textureFace(PImage img, float rx, float ry, float rz){
+  // rotate then draw a face
+  pushMatrix();
+    rotateX(rx);
+    rotateY(ry);
+    rotateZ(rz);
+    beginShape();
+      texture( img );
+      vertex(-0, -0,  20, 0, 0);
+      vertex( 20, -0,  20, 30, 0);
+      vertex( 20,  20,  20, 30, 30);
+      vertex(-0,  20,  20, 0, 30);
+      vertex(-0, -0,  20, 0, 0);
+    endShape();
+  popMatrix();
+}
 void mouseClicked()
 {
   if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 5 && mouseY < 5+20)
@@ -211,6 +269,9 @@ int sd(int n)
   }
   return somme;
 }
+boolean estNeg(int n){
+  return n <= 0;
+}
 
 boolean estAbondant(int n)
 {
@@ -230,9 +291,9 @@ boolean estDefaillant(int n){
 }
 
 int f1(int x){
-  return x * n1 * n1 + x * n2 + n3;
+  return x * x * n1 + x * n2 + n3;
 }
 
 int f2(int x){
-  return x * n4 * n4 + x * n5 + n6;
+  return x * x * n4 + x * n5 + n6;
 }

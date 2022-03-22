@@ -76,13 +76,13 @@ void draw()
         if(dir == 2)translate(-20,0);
         if(dir == 3)translate(0,20);
         if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
-        if(estParfait(n)){
+        if(estParfait(f1(n))){
           fill(0,255,0);
-        }else if(estPremier(n)){
+        }else if(estPremier(f1(n))){
           fill(255,255,0);
-        }else if(estAbondant(n)){
+        }else if(estAbondant(f1(n))){
           fill(0,0,255);
-        }else if(estDefaillant(n)){
+        }else if(estDefaillant(f1(n))){
           fill(255,0,0);
         }
         myBox(20);
@@ -227,4 +227,12 @@ boolean estParfait(int n)
 }
 boolean estDefaillant(int n){
   return sd(n) < 2 * n;
+}
+
+int f1(int x){
+  return x * n1 * n1 + x * n2 + n3;
+}
+
+int f2(int x){
+  return x * n4 * n4 + x * n5 + n6;
 }

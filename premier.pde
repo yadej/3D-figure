@@ -1,13 +1,14 @@
-int n1 = 6;
-int n2 = 3; 
-int n3 = 5;
-int n4 = 3;
-int n5 = 4; 
-int n6 = 8;
+int n1 = 0;
+int n2 = 1; 
+int n3 = 0;
+int n4 = 0;
+int n5 = 1; 
+int n6 = 0;
 
 void setup()
 {
   size(1000,1000, P3D);
+  textSize(32);
   frameRate(10);
   println("hello world");
   int a = 5;
@@ -35,14 +36,29 @@ void setup()
 
 void draw()
 {    
+  background(100,100,100);
+    //affiche fonction
     fill(0);
-    textSize(32);
     text("f(x) = ", 10, 50);
     text(n1+"x²+"+n2+"x+"+n3, 110, 50);
     fill(0);
-    textSize(32);
+    
     text("f(x) = ", width-320+10, 50);
     text(n4+"x²+"+n5+"x+"+n6, width-320+110, 50);
+    //affiche carrés
+    fill(255);
+    rect(120,5,20,20,5);
+    rect(120,55,20,20,5);
+    rect(200,5,20,20,5);
+    rect(200,55,20,20,5);
+    rect(250,5,20,20,5);
+    rect(250,55,20,20,5);
+    rect(width-200,5,20,20,5);
+    rect(width-200,55,20,20,5);
+    rect(width-120,5,20,20,5);
+    rect(width-120,55,20,20,5);
+    rect(width-60,5,20,20,5);
+    rect(width-60,55,20,20,5);
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
     translate(width/2,height/2, 90);
@@ -86,7 +102,57 @@ void draw()
  
 }
 
-
+void mouseClicked()
+{
+  if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 5 && mouseY < 5+20)
+  {
+    n1++;
+  }
+  if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 55 && mouseY < 55+20)
+  {
+    n1--;
+  }
+  if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 5 && mouseY < 5+20)
+  {
+    n2++;
+  }
+  if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 55 && mouseY < 55+20)
+  {
+    n2--;
+  }
+  if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 5 && mouseY < 5+20)
+  {
+    n3++;
+  }
+  if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 55 && mouseY < 55+20)
+  {
+    n3--;
+  }
+  if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 5 && mouseY < 5+20)
+  {
+    n4++;
+  }
+  if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 55 && mouseY < 55+20)
+  {
+    n4--;
+  }
+  if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 5 && mouseY < 5+20)
+  {
+    n5++;
+  }
+  if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 55 && mouseY < 55+20)
+  {
+    n5--;
+  }
+  if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 5 && mouseY < 5+20)
+  {
+    n6++;
+  }
+  if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 55 && mouseY < 55+20)
+  {
+    n6--;
+  }
+}
 void myBox(float sideSize){
   float size = sideSize;
   beginShape();

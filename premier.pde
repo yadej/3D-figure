@@ -73,57 +73,43 @@ void draw()
 }
 
 
-/*void construitFigure()
-{
-  for(int i = 0; i <= 10; i++)
-  {
-    for(int j = 0; j <= 10; j++)
-    {
-      print(j);
-    }
-    print('\n');
-  }
-}*/
-
-/*boolean estPremier(int n)
-{
-  if(n<= 1)
-  {
-    return false;
-  }
-  for(int i = 2; i <= sqrt(n); i++)
-  {
-    if(n % i == 0)
-    {
-      return false;
-    }
-  }
-  return true;
+void myBox(float sideSize){
+  float size = sideSize;
+  beginShape();
+  vertex(0, 0, 0);
+  vertex(0,  size, 0);
+  vertex(size,   size, 0);
+  vertex(size,  0, 0);
+  endShape(CLOSE);
+  
+  beginShape();
+  vertex(0, 0, size);
+  vertex(0,  size, size);
+  vertex(size,   size, size);
+  vertex(size,  0, size);
+  endShape(CLOSE);
+  
+  beginShape();
+  vertex(size, 0, 0);
+  vertex(size, size, 0);
+  vertex(size, size, size);
+  vertex(size,   0, size);
+  endShape();
+  
+  beginShape();
+  vertex(0,  0, 0);
+  vertex(0, 0, size);
+  vertex(size, 0, size);
+  vertex(size, 0, 0);
+  endShape();
+  
+  beginShape();
+  vertex(0,  size, 0);
+  vertex(0,   size, size);
+  vertex(size,  size, size);
+  vertex(size, size, 0);
+  endShape();
 }
-
-boolean estParfait(int n)
-{
-  int somme = 1;
-  for(int i = 2; i*i<=n; i++)
-  {
-    if(n%i == 0)
-    {
-      if(i*i != n)
-      {
-        somme = somme + i + n/i;
-      }
-      else
-      {
-        somme = somme + i;
-      }
-    }
-    if(somme == n && n != 1)
-    {
-      return true;
-    }
-  }
-  return false;
-}*/
 
 int sd(int n)
 {

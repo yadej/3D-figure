@@ -1,3 +1,10 @@
+int n1 = 6;
+int n2 = 3; 
+int n3 = 5;
+int n4 = 3;
+int n5 = 4; 
+int n6 = 8;
+
 void setup()
 {
   size(1000,1000, P3D);
@@ -28,12 +35,19 @@ void setup()
 
 void draw()
 {    
-
+    fill(0);
+    textSize(32);
+    text("f(x) = ", 10, 50);
+    text(n1+"x²+"+n2+"x+"+n3, 110, 50);
+    fill(0);
+    textSize(32);
+    text("f(x) = ", width-320+10, 50);
+    text(n4+"x²+"+n5+"x+"+n6, width-320+110, 50);
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
     translate(width/2,height/2, 90);
     fill(0,0,0);
-    box(20);
+    myBox(20);
     int a = 1;
     int n = 2;
     int k = 0;
@@ -55,7 +69,7 @@ void draw()
         }else if(estDefaillant(n)){
           fill(255,0,0);
         }
-        box(20);
+        myBox(20);
         n++;
       }
       k++;

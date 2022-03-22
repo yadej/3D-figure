@@ -65,7 +65,7 @@ void draw()
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
     translate(width/2,height/2, 90);
-    if(estNeg(f1(1))){
+    if(estNeg(f1(0))){
           fill(0,0,0);
         }else if(estParfait(f1(0))){
           fill(0,255,0);
@@ -83,15 +83,6 @@ void draw()
     int dir = 0;
     for(int i = 1; i<50; i++){
       if(i == 49)a--;
-       pushStyle();
-      noFill();
-    stroke(0,255,0);
-    // make an image with clock text
-      String s = "" + f1(n);
-      txtImg = textImager(s, pg);
-        // draw the image on a cube
-      textureCube(txtImg);
-  popStyle();
       for(int j = 0; j < a ;j++){
         if(dir == 0)translate(20,0);
         if(dir == 1)translate(0,-20);
@@ -110,6 +101,17 @@ void draw()
           fill(255,0,0);
         }
         myBox(20);
+        /*
+        pushStyle();
+   noFill();
+   noStroke();
+    // make an image with clock text
+   String s = "" + f1(n);
+   txtImg = textImager(s, pg);
+        // draw the image on a cube
+  textureCube(txtImg);
+  popStyle();
+  */
         n++;
       }
       k++;
@@ -127,11 +129,11 @@ void draw()
 }
 PImage textImager(String s, PGraphics pg) {
   pg.beginDraw();
-  pg.background(0,0,0);
+  pg.background(0,0,0,0);
   pg.textAlign(CENTER);
-  pg.fill(255);
-  pg.textSize(128);
-  pg.text(s, 10, 10);
+  pg.noFill();
+  pg.textSize(10);
+  pg.text(s, 20, 20);
   pg.endDraw();
   return pg.get();
 }
@@ -152,11 +154,11 @@ void textureFace(PImage img, float rx, float ry, float rz){
     rotateZ(rz);
     beginShape();
       texture( img );
-      vertex(-0, -0,  20, 0, 0);
-      vertex( 20, -0,  20, 30, 0);
+      vertex(-20, -20,  20, 0, 0);
+      vertex( 20, -20,  20, 30, 0);
       vertex( 20,  20,  20, 30, 30);
-      vertex(-0,  20,  20, 0, 30);
-      vertex(-0, -0,  20, 0, 0);
+      vertex(-20,  20,  20, 0, 30);
+      vertex(-20, -20,  20, 0, 0);
     endShape();
   popMatrix();
 }

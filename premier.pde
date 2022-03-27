@@ -1,5 +1,6 @@
 PGraphics pg;
 PImage txtImg;
+String s;
 int n1 = 0;
 int n2 = 1; 
 int n3 = 0;
@@ -63,22 +64,33 @@ void draw()
     rect(width-60,5,20,20,5);
     rect(width-60,55,20,20,5);
     //rotateX(frameCount/50.0);
-    rotateX(PI/6);
+    //rotateX(PI/6);
+    //rotateY(PI/6);
+    //rotateZ(PI/6);
     translate(width/2,height/2, 90);
-    if(estNeg(f1(0))){
+    if(estNeg(f1(1))){
           fill(0,0,0);
-        }else if(estParfait(f1(0))){
+        }else if(estParfait(f1(1))){
           fill(0,255,0);
-        }else if(estPremier(f1(0))){
+        }else if(estPremier(f1(1))){
           fill(255,255,0);
-        }else if(estAbondant(f1(0))){
+        }else if(estAbondant(f1(1))){
           fill(0,0,255);
-        }else if(estDefaillant(f1(0))){
+        }else if(estDefaillant(f1(1))){
           fill(255,0,0);
         }
+    pushStyle();
+         noFill();
+         noStroke();
+            // make an image with clock text
+         s = "" + f1(1);
+         txtImg = textImager(s, pg);
+        // draw the image on a cube
+        textureCube(txtImg);
+        popStyle();
     myBox(20);
     int a = 1;
-    int n = 1;
+    int n = 2;
     int k = 0;
     int dir = 0;
     for(int i = 1; i<50; i++){
@@ -88,7 +100,7 @@ void draw()
         if(dir == 1)translate(0,-20);
         if(dir == 2)translate(-20,0);
         if(dir == 3)translate(0,20);
-        if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
+        //if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
         if(estNeg(f1(n))){
           fill(0,0,0);
         }else if(estParfait(f1(n))){
@@ -101,17 +113,17 @@ void draw()
           fill(255,0,0);
         }
         myBox(20);
-        /*
-        pushStyle();
-   noFill();
-   noStroke();
-    // make an image with clock text
-   String s = "" + f1(n);
-   txtImg = textImager(s, pg);
+        if(n < 100){
+          pushStyle();
+         noFill();
+         noStroke();
+            // make an image with clock text
+         s = "" + f1(n);
+         txtImg = textImager(s, pg);
         // draw the image on a cube
-  textureCube(txtImg);
-  popStyle();
-  */
+        textureCube(txtImg);
+        popStyle();
+        }
         n++;
       }
       k++;
@@ -125,13 +137,14 @@ void draw()
           dir++;
        }
     }
+   
  
 }
 PImage textImager(String s, PGraphics pg) {
   pg.beginDraw();
   pg.background(0,0,0,0);
   pg.textAlign(CENTER);
-  pg.noFill();
+  pg.fill(128);
   pg.textSize(10);
   pg.text(s, 20, 20);
   pg.endDraw();
@@ -142,7 +155,6 @@ void textureCube(PImage img) {
   textureFace(img, 0, 0, 0);
   textureFace(img, 0,-HALF_PI, 0);
   textureFace(img, 0, HALF_PI, 0);
-  textureFace(img, 0, PI, 0);
   textureFace(img, -HALF_PI, 0, 0);
   textureFace(img,  HALF_PI, 0, 0);
 }

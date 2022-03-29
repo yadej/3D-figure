@@ -47,7 +47,7 @@ void draw()
     rotateX(PI/6);
     //rotateY(PI/6);
     //rotateZ(PI/6);
-    translate(width/2,height/2, 90);
+    translate(3*width/4,height/2);
     if(estNeg(f1(1))){
           fill(0,0,0);
         }else if(estParfait(f1(1))){
@@ -227,11 +227,12 @@ void mouseClicked()
 }
 void myBox(float sideSize){
   float size = sideSize;
+  
   beginShape();
   vertex(0, 0, 0);
+  vertex(0,  0, size);
+  vertex(0,  size, size);
   vertex(0,  size, 0);
-  vertex(size,   size, 0);
-  vertex(size,  0, 0);
   endShape(CLOSE);
   
   beginShape();

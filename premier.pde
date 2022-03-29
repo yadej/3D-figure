@@ -47,19 +47,10 @@ void draw()
     rotateX(PI/6);
     //rotateY(PI/6);
     //rotateZ(PI/6);
+    pushMatrix();
     translate(width/4,height/2);
-    if(estNeg(f1(1))){
-          fill(0,0,0);
-        }else if(estParfait(f1(1))){
-          fill(0,255,0);
-        }else if(estPremier(f1(1))){
-          fill(255,255,0);
-        }else if(estAbondant(f1(1))){
-          fill(0,0,255);
-        }else if(estDefaillant(f1(1))){
-          fill(255,0,0);
-        }
-        rotate(frameCount * PI/60.0);
+    couleur(1);
+    rotate(2 * frameCount * PI/ 60.0);
     myBox(20);
     textCube(1);
     int a = 1;
@@ -77,17 +68,7 @@ void draw()
         if(dir == 2)translate(-20,0);
         if(dir == 3)translate(0,20);
         if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
-        if(estNeg(f1(n))){
-          fill(0,0,0);
-        }else if(estParfait(f1(n))){
-          fill(0,255,0);
-        }else if(estPremier(f1(n))){
-          fill(255,255,0);
-        }else if(estAbondant(f1(n))){
-          fill(0,0,255);
-        }else if(estDefaillant(f1(n))){
-          fill(255,0,0);
-        }
+        couleur(n);
         myBox(20);
         if(n < 100){
           textCube(n);
@@ -106,9 +87,57 @@ void draw()
        }
        
     }
-    
+    popMatrix();
+    k = 0;
+    n = 2;
+    pushMatrix();
+    sphereDetail(5);
+    translate(3* width/4, height/2);
+    rotate(2 * frameCount * PI/ 60.0);
+    noStroke();
+    sphere(15);
+    for(int i = 4;i < 50; i = i + 2){
+      translate(0,0,-20);
+      for(float ang = -PI; ang<PI; ang+=PI/i) {
+        pushMatrix();
+        couleur2(n);
+        translate(i* 5 *cos(ang), i* 5 *sin(ang));
+        sphere(15);
+        popMatrix(); 
+        n++;
+ 
+    }
+  }
+  popMatrix();
    
  
+}
+
+void couleur(int n){
+   if(estNeg(f1(n))){
+          fill(0,0,0);
+        }else if(estParfait(f1(n))){
+          fill(0,255,0);
+        }else if(estPremier(f1(n))){
+          fill(255,255,0);
+        }else if(estAbondant(f1(n))){
+          fill(0,0,255);
+        }else if(estDefaillant(f1(n))){
+          fill(255,0,0);
+        }
+}
+void couleur2(int n){
+  if(estNeg(f2(n))){
+          fill(0,0,0);
+        }else if(estParfait(f2(n))){
+          fill(0,255,0);
+        }else if(estPremier(f2(n))){
+          fill(255,255,0);
+        }else if(estAbondant(f2(n))){
+          fill(0,0,255);
+        }else if(estDefaillant(f2(n))){
+          fill(255,0,0);
+        }
 }
 PImage textImager(String s, PGraphics pg) {
   pg.beginDraw();

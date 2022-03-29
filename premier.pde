@@ -40,31 +40,11 @@ void setup()
 
 void draw()
 {    
-  background(100,100,100);
+    background(100,100,100);
     //affiche fonction
-    fill(0);
-    text("f(x) = ", 10, 50);
-    text(n1+"x²+"+n2+"x+"+n3, 110, 50);
-    fill(0);
-    
-    text("f(x) = ", width-320+10, 50);
-    text(n4+"x²+"+n5+"x+"+n6, width-320+110, 50);
-    //affiche carrés
-    fill(255);
-    rect(120,5,20,20,5);
-    rect(120,55,20,20,5);
-    rect(200,5,20,20,5);
-    rect(200,55,20,20,5);
-    rect(250,5,20,20,5);
-    rect(250,55,20,20,5);
-    rect(width-200,5,20,20,5);
-    rect(width-200,55,20,20,5);
-    rect(width-120,5,20,20,5);
-    rect(width-120,55,20,20,5);
-    rect(width-60,5,20,20,5);
-    rect(width-60,55,20,20,5);
+    drawF();
     //rotateX(frameCount/50.0);
-    //rotateX(PI/6);
+    rotateX(PI/6);
     //rotateY(PI/6);
     //rotateZ(PI/6);
     translate(width/2,height/2, 90);
@@ -79,16 +59,8 @@ void draw()
         }else if(estDefaillant(f1(1))){
           fill(255,0,0);
         }
-    pushStyle();
-         noFill();
-         noStroke();
-            // make an image with clock text
-         s = "" + f1(1);
-         txtImg = textImager(s, pg);
-        // draw the image on a cube
-        textureCube(txtImg);
-        popStyle();
     myBox(20);
+    textCube(1);
     int a = 1;
     int n = 2;
     int k = 0;
@@ -100,7 +72,7 @@ void draw()
         if(dir == 1)translate(0,-20);
         if(dir == 2)translate(-20,0);
         if(dir == 3)translate(0,20);
-        //if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
+        if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
         if(estNeg(f1(n))){
           fill(0,0,0);
         }else if(estParfait(f1(n))){
@@ -114,15 +86,7 @@ void draw()
         }
         myBox(20);
         if(n < 100){
-          pushStyle();
-         noFill();
-         noStroke();
-            // make an image with clock text
-         s = "" + f1(n);
-         txtImg = textImager(s, pg);
-        // draw the image on a cube
-        textureCube(txtImg);
-        popStyle();
+          textCube(n);
         }
         n++;
       }
@@ -144,19 +108,55 @@ PImage textImager(String s, PGraphics pg) {
   pg.beginDraw();
   pg.background(0,0,0,0);
   pg.textAlign(CENTER);
-  pg.fill(128);
-  pg.textSize(10);
+  pg.fill(0);
+  pg.textSize(20);
   pg.text(s, 20, 20);
   pg.endDraw();
   return pg.get();
 }
+void textCube(int n){
+  pushStyle();
+         noFill();
+         noStroke();
+            // make an image with clock text
+         s = "" + f1(n);
+         txtImg = textImager(s, pg);
+        // draw the image on a cube
+        textureCube(txtImg);
+     popStyle();
+}
+
+void drawF(){
+  fill(0);
+    text("f(x) = ", 10, 50);
+    text(n1+"x²+"+n2+"x+"+n3, 110, 50);
+    fill(0);
+    
+    text("f(x) = ", width-320+10, 50);
+    text(n4+"x²+"+n5+"x+"+n6, width-320+110, 50);
+    //affiche carrés
+    fill(255);
+    rect(120,5,20,20,5);
+    rect(120,55,20,20,5);
+    rect(200,5,20,20,5);
+    rect(200,55,20,20,5);
+    rect(250,5,20,20,5);
+    rect(250,55,20,20,5);
+    rect(width-200,5,20,20,5);
+    rect(width-200,55,20,20,5);
+    rect(width-120,5,20,20,5);
+    rect(width-120,55,20,20,5);
+    rect(width-60,5,20,20,5);
+    rect(width-60,55,20,20,5);
+}
+
 void textureCube(PImage img) {
   // draw six faces
   textureFace(img, 0, 0, 0);
-  textureFace(img, 0,-HALF_PI, 0);
-  textureFace(img, 0, HALF_PI, 0);
-  textureFace(img, -HALF_PI, 0, 0);
-  textureFace(img,  HALF_PI, 0, 0);
+  //textureFace(img, 0,-HALF_PI, 0);
+  //textureFace(img, 0, HALF_PI, 0);
+  //textureFace(img, -HALF_PI, 0, 0);
+  //textureFace(img,  HALF_PI, 0, 0);
 }
 void textureFace(PImage img, float rx, float ry, float rz){
   // rotate then draw a face
@@ -166,11 +166,11 @@ void textureFace(PImage img, float rx, float ry, float rz){
     rotateZ(rz);
     beginShape();
       texture( img );
-      vertex(-20, -20,  20, 0, 0);
-      vertex( 20, -20,  20, 30, 0);
-      vertex( 20,  20,  20, 30, 30);
-      vertex(-20,  20,  20, 0, 30);
-      vertex(-20, -20,  20, 0, 0);
+      vertex( 0, 0,  20, 0, 0);
+      vertex( 20, 0,  20, 50, 0);
+      vertex( 20,  20,  20, 50, 50);
+      vertex(0,  20,  20, 0, 50);
+      vertex(0, 0,  20, 0, 0);
     endShape();
   popMatrix();
 }

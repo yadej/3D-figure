@@ -10,7 +10,7 @@ int n6 = 0;
 
 void setup()
 {
-  size(1000,1000, P3D);
+  size(1600,1000, P3D);
   pg = createGraphics(300,300,P2D);
   textSize(32);
   frameRate(10);
@@ -47,7 +47,7 @@ void draw()
     rotateX(PI/6);
     //rotateY(PI/6);
     //rotateZ(PI/6);
-    translate(3*width/4,height/2);
+    translate(width/4,height/2);
     if(estNeg(f1(1))){
           fill(0,0,0);
         }else if(estParfait(f1(1))){
@@ -59,13 +59,17 @@ void draw()
         }else if(estDefaillant(f1(1))){
           fill(255,0,0);
         }
+        rotate(frameCount * PI/60.0);
     myBox(20);
     textCube(1);
     int a = 1;
     int n = 2;
     int k = 0;
     int dir = 0;
+    
+    
     for(int i = 1; i<50; i++){
+      
       if(i == 49)a--;
       for(int j = 0; j < a ;j++){
         if(dir == 0)translate(20,0);
@@ -100,7 +104,9 @@ void draw()
        }else{
           dir++;
        }
+       
     }
+    
    
  
 }

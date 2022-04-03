@@ -1,5 +1,6 @@
 PGraphics pg;
-PImage txtImg;
+PGraphics txtImg;
+PShape ps;
 String s;
 int n1 = 0;
 int n2 = 1; 
@@ -7,9 +8,15 @@ int n3 = 0;
 int n4 = 0;
 int n5 = 1; 
 int n6 = 0;
+color couleur[] = new color[5];
 
 void setup()
 {
+  couleur[0] = color(0);
+  couleur[1] = color(0,255,0);
+  couleur[2] = color(255,255,0);
+  couleur[3] = color(0,0,255);
+  couleur[4] = color(255,0,0);
   size(1600,1000, P3D);
   pg = createGraphics(300,300,P2D);
   textSize(32);
@@ -36,11 +43,13 @@ void setup()
       println(i + ": est abondant");
     }
   }
+
 }
 
 void draw()
 {    
     background(100,100,100);
+    stroke(0);
     //affiche fonction
     drawF();
     //rotateX(frameCount/50.0);
@@ -49,30 +58,31 @@ void draw()
     //rotateZ(PI/6);
     pushMatrix();
     translate(width/4,height/2);
+    ps = myBox(20);
     couleur(1);
     rotate(2 * frameCount * PI/ 60.0);
-    myBox(20);
+    shape(ps);
     textCube(1);
     int a = 1;
     int n = 2;
     int k = 0;
     int dir = 0;
     
-    
     for(int i = 1; i<50; i++){
-      
       if(i == 49)a--;
       for(int j = 0; j < a ;j++){
+        ps = myBox(20);
         if(dir == 0)translate(20,0);
         if(dir == 1)translate(0,-20);
         if(dir == 2)translate(-20,0);
         if(dir == 3)translate(0,20);
-        if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
+        if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
         couleur(n);
-        myBox(20);
+        shape(ps);
         if(n < 100){
           textCube(n);
         }
+        
         n++;
       }
       k++;
@@ -139,15 +149,15 @@ void couleur2(int n){
           fill(255,0,0);
         }
 }
-PImage textImager(String s, PGraphics pg) {
+PGraphics textImager(String s, PGraphics pg) {
   pg.beginDraw();
   pg.background(0,0,0,0);
   pg.textAlign(CENTER);
-  pg.fill(0);
   pg.textSize(20);
+  pg.fill(0);
   pg.text(s, 20, 20);
   pg.endDraw();
-  return pg.get();
+  return pg;
 }
 void textCube(int n){
   pushStyle();
@@ -157,7 +167,7 @@ void textCube(int n){
          s = "" + f1(n);
          txtImg = textImager(s, pg);
         // draw the image on a cube
-        textureCube(txtImg);
+        textureCube(txtImg.get());
      popStyle();
 }
 
@@ -260,43 +270,54 @@ void mouseClicked()
     n6--;
   }
 }
-void myBox(float sideSize){
+PShape myBox(float sideSize){
   float size = sideSize;
+  PShape p = createShape(GROUP);
+  PShape a1 = createShape();
+  PShape a2 = createShape();
+  PShape a3 = createShape();
+  PShape a4 = createShape();
+  PShape a5 = createShape();
+  a1.beginShape();
+  a1.vertex(0, 0, 0);
+  a1.vertex(0,  0, size);
+  a1.vertex(0,  size, size);
+  a1.vertex(0,  size, 0);
+  a1.endShape(CLOSE);
   
-  beginShape();
-  vertex(0, 0, 0);
-  vertex(0,  0, size);
-  vertex(0,  size, size);
-  vertex(0,  size, 0);
-  endShape(CLOSE);
+  a2.beginShape();
+  a2.vertex(0, 0, size);
+  a2.vertex(0,  size, size);
+  a2.vertex(size,   size, size);
+  a2.vertex(size,  0, size);
+  a2.endShape(CLOSE);
   
-  beginShape();
-  vertex(0, 0, size);
-  vertex(0,  size, size);
-  vertex(size,   size, size);
-  vertex(size,  0, size);
-  endShape(CLOSE);
+  a3.beginShape();
+  a3.vertex(size, 0, 0);
+  a3.vertex(size, size, 0);
+  a3.vertex(size, size, size);
+  a3.vertex(size,   0, size);
+  a3.endShape();
   
-  beginShape();
-  vertex(size, 0, 0);
-  vertex(size, size, 0);
-  vertex(size, size, size);
-  vertex(size,   0, size);
-  endShape();
+  a4.beginShape();
+  a4.vertex(0,  0, 0);
+  a4.vertex(0, 0, size);
+  a4.vertex(size, 0, size);
+  a4.vertex(size, 0, 0);
+  a4.endShape();
   
-  beginShape();
-  vertex(0,  0, 0);
-  vertex(0, 0, size);
-  vertex(size, 0, size);
-  vertex(size, 0, 0);
-  endShape();
-  
-  beginShape();
-  vertex(0,  size, 0);
-  vertex(0,   size, size);
-  vertex(size,  size, size);
-  vertex(size, size, 0);
-  endShape();
+  a5.beginShape();
+  a5.vertex(0,  size, 0);
+  a5.vertex(0,   size, size);
+  a5.vertex(size,  size, size);
+  a5.vertex(size, size, 0);
+  a5.endShape();
+  p.addChild(a1);
+  p.addChild(a2);
+  p.addChild(a3);
+  p.addChild(a4);
+  p.addChild(a5);
+  return p;
 }
 
 int sd(int n)

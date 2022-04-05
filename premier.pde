@@ -21,6 +21,8 @@ void setup()
   size(1600,1000, P3D);
   pg = createGraphics(300,300,P2D);
   textSize(32);
+  background(100,100,100);
+  drawF();
   frameRate(10);
   println("hello world");
   int a = 5;
@@ -54,10 +56,9 @@ void draw()
     height/2/tan(PI*30.0 / 180.0), 
     width, height/2.0, 0, 
     0, 1, 0);*/
-    background(100,100,100);
+  
     stroke(0);
     //affiche fonction
-    drawF();
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
     //rotateY(PI/6);
@@ -121,11 +122,11 @@ void draw()
         translate(i* 5 *cos(ang), i* 5 *sin(ang));
         if(n < 100){
           s = "" + f2(n);
-          txtImg = textImager(s ,pg);
-          psh.setTexture(txtImg.get());
-        }else{
-          couleur2(n);
+          fill(0);
+          textSize(5);
+          text(s, i* 5 *cos(ang), i* 5 *sin(ang), 20);
         }
+        couleur2(n);
         shape(psh);
         popMatrix(); 
         n++;

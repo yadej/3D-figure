@@ -1,6 +1,7 @@
 PGraphics pg;
 PGraphics txtImg;
 PShape ps;
+PShape psh;
 String s;
 int n1 = 0;
 int n2 = 1; 
@@ -48,6 +49,11 @@ void setup()
 
 void draw()
 {    
+    /*camera(width/2+map(mouseX, 0, width, -2*width, 2*width), 
+    height/2+map(mouseY, 0, height, -height, height), 
+    height/2/tan(PI*30.0 / 180.0), 
+    width, height/2.0, 0, 
+    0, 1, 0);*/
     background(100,100,100);
     stroke(0);
     //affiche fonction
@@ -60,7 +66,7 @@ void draw()
     translate(width/4,height/2);
     ps = myBox(20);
     couleur(1);
-    rotate(2 * frameCount * PI/ 60.0);
+    //rotate(2 * frameCount * PI/ 60.0);
     shape(ps);
     textCube(1);
     int a = 1;
@@ -100,19 +106,27 @@ void draw()
     popMatrix();
     k = 0;
     n = 2;
+    psh = createShape(SPHERE,15);
     pushMatrix();
-    sphereDetail(5);
     translate(3* width/4, height/2);
-    rotate(2 * frameCount * PI/ 60.0);
+    //rotate(2 * frameCount * PI/ 60.0);
     noStroke();
-    sphere(15);
+    psh = createShape(SPHERE,15);
+    shape(psh);
     for(int i = 4;i < 50; i = i + 2){
       translate(0,0,-20);
       for(float ang = -PI; ang<PI; ang+=PI/i) {
         pushMatrix();
-        couleur2(n);
+        psh = createShape(SPHERE,15);
         translate(i* 5 *cos(ang), i* 5 *sin(ang));
-        sphere(15);
+        if(n < 100){
+          s = "" + f2(n);
+          txtImg = textImager(s ,pg);
+          psh.setTexture(txtImg.get());
+        }else{
+          couleur2(n);
+        }
+        shape(psh);
         popMatrix(); 
         n++;
  
@@ -151,7 +165,8 @@ void couleur2(int n){
 }
 PGraphics textImager(String s, PGraphics pg) {
   pg.beginDraw();
-  pg.background(0,0,0,0);
+  //pg.background(0,0,0,0);
+  pg.clear();
   pg.textAlign(CENTER);
   pg.textSize(20);
   pg.fill(0);

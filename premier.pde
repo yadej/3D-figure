@@ -14,6 +14,9 @@ int fig2 = 0;
 int a;
 int n;
 int k;
+float ang = 0;
+float eyeX, eyeY,eyeZ;
+int d = 200;
 int dir;
 color couleur[] = new color[5];
 
@@ -50,6 +53,10 @@ void setup()
       println(i + ": est abondant");
     }
   }
+  eyeX = width/2;
+  eyeY = height/2;
+  eyeZ = d;
+
 
 }
 
@@ -60,12 +67,24 @@ void draw()
     height/2/tan(PI*30.0 / 180.0), 
     width, height/2.0, 0, 
     0, 1, 0);*/
+    //camera(width/2,height/2,0, 0,0,0,0,1,0);
+    ang++;
+    if (ang>=360){
+      ang=0;
+    }
+    eyeY = (height/2)-d*(sin(radians(ang)));
+    eyeX = d*cos(radians(ang));
+
+
     stroke(0);
     textSize(32);
-    drawF();
+    if(fig1 != f1(1) || fig2 != f2(1)){
+      drawF();
+    }
     //affiche fonction
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
+    //camera(eyeX, eyeY, eyeZ, width/2, height/2 +100, 10, 0, 1, 0);
     //rotateY(PI/6);
     //rotateZ(PI/6);
     if(fig1 != f1(1)){

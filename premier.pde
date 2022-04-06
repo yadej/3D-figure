@@ -1,7 +1,9 @@
 PGraphics pg;
 PGraphics txtImg;
+PGraphics txtSph;
 PShape ps;
 PShape psh;
+//PShader test;
 String s;
 int n1 = 0;
 int n2 = 1; 
@@ -22,6 +24,7 @@ color couleur[] = new color[5];
 
 void setup()
 {
+  //test =loadShader("TestFrag.glsl","TestVertex.glsl");
   couleur[0] = color(128,128,0);
   couleur[1] = color(0,255,0);
   couleur[2] = color(255,255,0);
@@ -74,8 +77,8 @@ void draw()
     }
     eyeY = (height/2)-d*(sin(radians(ang)));
     eyeX = d*cos(radians(ang));
-
-
+    //perspective();
+    //camera(eyeX, eyeY, eyeZ, width/2, height/2 +100, 10, 0, 1, 0);
     stroke(0);
     textSize(32);
     if(fig1 != f1(1) || fig2 != f2(1)){
@@ -87,7 +90,9 @@ void draw()
     //camera(eyeX, eyeY, eyeZ, width/2, height/2 +100, 10, 0, 1, 0);
     //rotateY(PI/6);
     //rotateZ(PI/6);
+    //shader(test);
     if(fig1 != f1(1)){
+      
       stroke(0);
       fig1 = f1(1);
       pushMatrix();
@@ -153,9 +158,28 @@ void draw()
             translate(i* 5 *cos(ang), i* 5 *sin(ang));
             if(n < 100){
               s = "" + f2(n);
-              fill(0);
-              textSize(5);
-              text(s, i* 5 *cos(ang), i* 5 *sin(ang), 20);
+              txtSph = createGraphics(40,40);
+              txtSph.beginDraw();
+              if(estNeg(f2(n))){
+                txtSph.background(couleur[0]);
+              }else if(estParfait(f2(n))){
+                txtSph.background(couleur[1]);
+              }else if(estPremier(f2(n))){
+                  txtSph.background(couleur[2]);
+              }else if(estAbondant(f2(n))){
+                txtSph.background(couleur[3]);
+              }else if(estDefaillant(f2(n))){
+                txtSph.background(couleur[4]);
+              }
+              //txtSph.background(0, 0, 0, 0);
+              txtSph.fill(0);
+              txtSph.textSize(5);
+              txtSph.text(s,25,25);
+              txtSph.endDraw();
+              noStroke();
+
+              psh.setTexture(txtSph);
+
             }
             couleur2(n);
             shape(psh);
@@ -197,12 +221,12 @@ void couleur2(int n){
 }
 PGraphics textImager(String s, PGraphics pg) {
   pg.beginDraw();
-  //pg.background(0,0,0,0);
   pg.clear();
+  pg.background(0,0,0,0);
   pg.textAlign(CENTER);
   pg.textSize(20);
   pg.fill(0);
-  pg.text(s, 20, 20);
+  pg.text(s, 25, 25);
   pg.endDraw();
   return pg;
 }
@@ -261,11 +285,11 @@ void textureFace(PImage img, float rx, float ry, float rz){
     rotateZ(rz);
     beginShape();
       texture( img );
-      vertex( 0, 0,  22, 0, 0);
-      vertex( 20, 0,  22, 50, 0);
-      vertex( 20,22,  22, 50, 50);
-      vertex(0,  22,  22, 0, 50);
-      vertex(0, 0,  22, 0, 0);
+      vertex( 0, 0,  21, 0, 0);
+      vertex( 20, 0,  21, 50, 0);
+      vertex( 20,20,  21, 50, 50);
+      vertex(0,  20,  21, 0, 50);
+      vertex(0, 0,  21, 0, 0);
     endShape();
   popMatrix();
 }

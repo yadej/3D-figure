@@ -116,11 +116,33 @@ void draw()
           if(dir == 2)translate(-20,0);
           if(dir == 3)translate(0,20);
           if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
+          if(n < 100){
+              s = "" + f1(n);
+              txtImg = createGraphics(40,40, P2D);
+              txtImg.beginDraw();
+              if(estNeg(f1(n))){
+                txtImg.background(couleur[0]);
+              }else if(estParfait(f1(n))){
+                txtImg.background(couleur[1]);
+              }else if(estPremier(f1(n))){
+                  txtImg.background(couleur[2]);
+              }else if(estAbondant(f1(n))){
+                txtImg.background(couleur[3]);
+              }else if(estDefaillant(f1(n))){
+                txtImg.background(couleur[4]);
+              }
+              //txtSph.background(0, 0, 0, 0);
+              txtImg.fill(0);
+              txtImg.textSize(15);
+              txtImg.text(s,20,20);
+              txtImg.endDraw();
+              ps.setTexture(txtImg);
+          }
           couleur(n);
           shape(ps);
-          if(n < 100){
+          /*if(n < 100){
             textCube(n);
-          }
+          }*/
           
           n++;
         }
@@ -353,38 +375,38 @@ PShape myBox(float sideSize){
   PShape a4 = createShape();
   PShape a5 = createShape();
   a1.beginShape();
-  a1.vertex(0, 0, 0);
-  a1.vertex(0,  0, size);
-  a1.vertex(0,  size, size);
-  a1.vertex(0,  size, 0);
+  a1.vertex(0, 0, 0, 0 , 0);
+  a1.vertex(0,  0, size, 0 ,40);
+  a1.vertex(0,  size, size, 40, 40);
+  a1.vertex(0,  size, 0, 40 , 0);
   a1.endShape(CLOSE);
   
   a2.beginShape();
-  a2.vertex(0, 0, size);
-  a2.vertex(0,  size, size);
-  a2.vertex(size,   size, size);
-  a2.vertex(size,  0, size);
+  a2.vertex(0, 0, size, 0 , 0);
+  a2.vertex(0,  size, size, 0, 40);
+  a2.vertex(size,   size, size,40 ,40);
+  a2.vertex(size,  0, size,40, 0);
   a2.endShape(CLOSE);
   
   a3.beginShape();
-  a3.vertex(size, 0, 0);
-  a3.vertex(size, size, 0);
-  a3.vertex(size, size, size);
-  a3.vertex(size,   0, size);
+  a3.vertex(size, 0, 0, 40, 40);
+  a3.vertex(size, size, 0,0 ,40);
+  a3.vertex(size, size, size,0 ,0);
+  a3.vertex(size,   0, size,40,0);
   a3.endShape();
   
   a4.beginShape();
-  a4.vertex(0,  0, 0);
-  a4.vertex(0, 0, size);
-  a4.vertex(size, 0, size);
-  a4.vertex(size, 0, 0);
+  a4.vertex(0,  0, 0,0 ,0);
+  a4.vertex(0, 0, size, 0 ,40);
+  a4.vertex(size, 0, size,40 ,40);
+  a4.vertex(size, 0, 0,40 ,0);
   a4.endShape();
   
   a5.beginShape();
-  a5.vertex(0,  size, 0);
-  a5.vertex(0,   size, size);
-  a5.vertex(size,  size, size);
-  a5.vertex(size, size, 0);
+  a5.vertex(0,  size, 0 , 0, 40);
+  a5.vertex(0,   size, size,0 , 0);
+  a5.vertex(size,  size, size, 40, 0);
+  a5.vertex(size, size, 0, 40, 40);
   a5.endShape();
   p.addChild(a1);
   p.addChild(a2);

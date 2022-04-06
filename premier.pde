@@ -9,20 +9,24 @@ int n3 = 0;
 int n4 = 0;
 int n5 = 1; 
 int n6 = 0;
+int fig1 = 0;
+int fig2 = 0;
+int a;
+int n;
+int k;
+int dir;
 color couleur[] = new color[5];
 
 void setup()
 {
-  couleur[0] = color(0);
+  couleur[0] = color(128,128,0);
   couleur[1] = color(0,255,0);
   couleur[2] = color(255,255,0);
   couleur[3] = color(0,0,255);
   couleur[4] = color(255,0,0);
   size(1600,1000, P3D);
   pg = createGraphics(300,300,P2D);
-  textSize(32);
   background(100,100,100);
-  drawF();
   frameRate(10);
   println("hello world");
   int a = 5;
@@ -56,112 +60,120 @@ void draw()
     height/2/tan(PI*30.0 / 180.0), 
     width, height/2.0, 0, 
     0, 1, 0);*/
-  
     stroke(0);
+    textSize(32);
+    drawF();
     //affiche fonction
     //rotateX(frameCount/50.0);
     rotateX(PI/6);
     //rotateY(PI/6);
     //rotateZ(PI/6);
-    pushMatrix();
-    translate(width/4,height/2);
-    ps = myBox(20);
-    couleur(1);
-    //rotate(2 * frameCount * PI/ 60.0);
-    shape(ps);
-    textCube(1);
-    int a = 1;
-    int n = 2;
-    int k = 0;
-    int dir = 0;
-    
-    for(int i = 1; i<50; i++){
-      if(i == 49)a--;
-      for(int j = 0; j < a ;j++){
-        ps = myBox(20);
-        if(dir == 0)translate(20,0);
-        if(dir == 1)translate(0,-20);
-        if(dir == 2)translate(-20,0);
-        if(dir == 3)translate(0,20);
-        if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
-        couleur(n);
-        shape(ps);
-        if(n < 100){
-          textCube(n);
+    if(fig1 != f1(1)){
+      stroke(0);
+      fig1 = f1(1);
+      pushMatrix();
+      translate(width/4,height/2);
+      ps = myBox(20);
+      //rotate(2 * frameCount * PI/ 60.0);
+      couleur(1);
+      shape(ps);
+      textCube(1);
+      a = 1;
+      n = 2;
+      k = 0;
+      dir = 0;
+      
+      for(int i = 1; i<50; i++){
+        if(i == 49)a--;
+        for(int j = 0; j < a ;j++){
+          ps = myBox(20);
+          if(dir == 0)translate(20,0);
+          if(dir == 1)translate(0,-20);
+          if(dir == 2)translate(-20,0);
+          if(dir == 3)translate(0,20);
+          if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
+          couleur(n);
+          shape(ps);
+          if(n < 100){
+            textCube(n);
+          }
+          
+          n++;
         }
-        
-        n++;
+        k++;
+        if(k ==2){
+          a++;
+          k = 0;
+        }
+        if(dir == 3){
+           dir = 0;
+         }else{
+            dir++;
+         }
+         
       }
-      k++;
-      if(k ==2){
-        a++;
+      popMatrix();
+    }
+    if(fig2 != f2(1)){
+        fig2 = f2(1);
         k = 0;
+        n = 2;
+        psh = createShape(SPHERE,15);
+        pushMatrix();
+        translate(3* width/4, height/2);
+        //rotate(2 * frameCount * PI/ 60.0);
+        noStroke();
+        psh = createShape(SPHERE,15);
+        couleur2(1);
+        shape(psh);
+        for(int i = 4;i < 50; i = i + 2){
+          translate(0,0,-20);
+          for(float ang = -PI; ang<PI; ang+=PI/i) {
+            pushMatrix();
+            psh = createShape(SPHERE,15);
+            translate(i* 5 *cos(ang), i* 5 *sin(ang));
+            if(n < 100){
+              s = "" + f2(n);
+              fill(0);
+              textSize(5);
+              text(s, i* 5 *cos(ang), i* 5 *sin(ang), 20);
+            }
+            couleur2(n);
+            shape(psh);
+            popMatrix(); 
+            n++;
+     
+        }
       }
-      if(dir == 3){
-         dir = 0;
-       }else{
-          dir++;
-       }
+      popMatrix();
        
     }
-    popMatrix();
-    k = 0;
-    n = 2;
-    psh = createShape(SPHERE,15);
-    pushMatrix();
-    translate(3* width/4, height/2);
-    //rotate(2 * frameCount * PI/ 60.0);
-    noStroke();
-    psh = createShape(SPHERE,15);
-    shape(psh);
-    for(int i = 4;i < 50; i = i + 2){
-      translate(0,0,-20);
-      for(float ang = -PI; ang<PI; ang+=PI/i) {
-        pushMatrix();
-        psh = createShape(SPHERE,15);
-        translate(i* 5 *cos(ang), i* 5 *sin(ang));
-        if(n < 100){
-          s = "" + f2(n);
-          fill(0);
-          textSize(5);
-          text(s, i* 5 *cos(ang), i* 5 *sin(ang), 20);
-        }
-        couleur2(n);
-        shape(psh);
-        popMatrix(); 
-        n++;
- 
-    }
-  }
-  popMatrix();
-   
- 
 }
 
 void couleur(int n){
    if(estNeg(f1(n))){
-          fill(0,0,0);
+          ps.setFill(couleur[0]);
         }else if(estParfait(f1(n))){
-          fill(0,255,0);
+          ps.setFill(couleur[1]);
         }else if(estPremier(f1(n))){
-          fill(255,255,0);
+          ps.setFill(couleur[2]);
         }else if(estAbondant(f1(n))){
-          fill(0,0,255);
+          ps.setFill(couleur[3]);
         }else if(estDefaillant(f1(n))){
-          fill(255,0,0);
+          ps.setFill(couleur[4]);
         }
 }
 void couleur2(int n){
   if(estNeg(f2(n))){
-          fill(0,0,0);
+          psh.setFill(couleur[0]);
         }else if(estParfait(f2(n))){
-          fill(0,255,0);
+          psh.setFill(couleur[1]);
         }else if(estPremier(f2(n))){
-          fill(255,255,0);
+          psh.setFill(couleur[2]);
         }else if(estAbondant(f2(n))){
-          fill(0,0,255);
+          psh.setFill(couleur[3]);
         }else if(estDefaillant(f2(n))){
-          fill(255,0,0);
+          psh.setFill(couleur[4]);
         }
 }
 PGraphics textImager(String s, PGraphics pg) {
@@ -188,7 +200,10 @@ void textCube(int n){
 }
 
 void drawF(){
-  fill(0);
+    fill(100);
+    noStroke();
+    rect(0,0,width,80);
+    fill(0);
     text("f(x) = ", 10, 50);
     text(n1+"x²+"+n2+"x+"+n3, 110, 50);
     fill(0);
@@ -227,11 +242,11 @@ void textureFace(PImage img, float rx, float ry, float rz){
     rotateZ(rz);
     beginShape();
       texture( img );
-      vertex( 0, 0,  20, 0, 0);
-      vertex( 20, 0,  20, 50, 0);
-      vertex( 20,  20,  20, 50, 50);
-      vertex(0,  20,  20, 0, 50);
-      vertex(0, 0,  20, 0, 0);
+      vertex( 0, 0,  22, 0, 0);
+      vertex( 20, 0,  22, 50, 0);
+      vertex( 20,22,  22, 50, 50);
+      vertex(0,  22,  22, 0, 50);
+      vertex(0, 0,  22, 0, 0);
     endShape();
   popMatrix();
 }
@@ -357,7 +372,7 @@ int sd(int n)
   return somme;
 }
 boolean estNeg(int n){
-  return n <= 0;
+  return n <= 1;
 }
 
 boolean estAbondant(int n)

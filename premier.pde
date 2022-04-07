@@ -21,6 +21,8 @@ float eyeX, eyeY,eyeZ;
 int d = 200;
 int dir;
 color couleur[] = new color[5];
+int nbfig1[] = new int[100];
+int nbfig2[] = new int[100];
 
 void setup()
 {
@@ -30,6 +32,10 @@ void setup()
   couleur[2] = color(255,255,0);
   couleur[3] = color(0,0,255);
   couleur[4] = color(255,0,0);
+  for(int i = 0; i < 100; i++){
+    nbfig1[i] = i + 1;
+    nbfig2[i] = i + 1;
+  }
   size(1600,1000, P3D);
   pg = createGraphics(300,300,P2D);
   background(100,100,100);
@@ -117,21 +123,22 @@ void draw()
           if(dir == 3)translate(0,20);
           if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
           if(n < 100){
-              s = "" + f1(n);
+              s = "" + nbfig1[n];
               txtImg = createGraphics(40,40, P2D);
               txtImg.beginDraw();
-              if(estNeg(f1(n))){
+              if(estNeg(nbfig1[n])){
                 txtImg.background(couleur[0]);
-              }else if(estParfait(f1(n))){
+              }else if(estParfait(nbfig1[n])){
                 txtImg.background(couleur[1]);
-              }else if(estPremier(f1(n))){
-                  txtImg.background(couleur[2]);
-              }else if(estAbondant(f1(n))){
+              }else if(estPremier(nbfig1[n])){
+                txtImg.background(couleur[2]);
+              }else if(estAbondant(nbfig1[n])){
                 txtImg.background(couleur[3]);
-              }else if(estDefaillant(f1(n))){
+              }else if(estDefaillant(nbfig1[n])){
                 txtImg.background(couleur[4]);
               }
               //txtSph.background(0, 0, 0, 0);
+              txtImg.textAlign(CENTER);
               txtImg.fill(0);
               txtImg.textSize(15);
               txtImg.text(s,20,20);
@@ -179,21 +186,22 @@ void draw()
             psh = createShape(SPHERE,15);
             translate(i* 5 *cos(ang), i* 5 *sin(ang));
             if(n < 100){
-              s = "" + f2(n);
+              s = "" + nbfig2[i];
               txtSph = createGraphics(40,40);
               txtSph.beginDraw();
-              if(estNeg(f2(n))){
+              if(estNeg(nbfig2[i])){
                 txtSph.background(couleur[0]);
-              }else if(estParfait(f2(n))){
+              }else if(estParfait(nbfig2[i])){
                 txtSph.background(couleur[1]);
-              }else if(estPremier(f2(n))){
+              }else if(estPremier(nbfig2[i])){
                   txtSph.background(couleur[2]);
-              }else if(estAbondant(f2(n))){
+              }else if(estAbondant(nbfig2[i])){
                 txtSph.background(couleur[3]);
-              }else if(estDefaillant(f2(n))){
+              }else if(estDefaillant(nbfig2[i])){
                 txtSph.background(couleur[4]);
               }
               //txtSph.background(0, 0, 0, 0);
+              //txtSph.textAlign(CENTER);
               txtSph.fill(0);
               txtSph.textSize(5);
               txtSph.text(s,25,25);
@@ -320,50 +328,87 @@ void mouseClicked()
   if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n1++;
+    for(int i = 0; i < 100; i++){
+      nbfig1[i] += (i + 1) * (i +1);
+      
+    }
   }
   if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n1--;
+    for(int i = 0; i < 100; i++){
+      nbfig1[i] -= (i + 1) * (i +1);
+    }
   }
   if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n2++;
+    for(int i = 0; i < 100; i++){
+      nbfig1[i] += i + 1;
+    }
   }
   if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n2--;
+    for(int i = 0; i < 100; i++){
+      nbfig1[i] -= i + 1;
+    }
   }
   if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n3++;
+    for(int i = 0; i < 100; i++){
+      nbfig1[i]++;
+    }
   }
   if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n3--;
+    for(int i = 0; i < 100; i++){
+      nbfig1[i]++;
+    }
   }
   if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n4++;
+    for(int i = 0; i < 100; i++){
+      nbfig2[i]+= (i + 1) * (i + 1);
+    }
   }
   if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n4--;
+    for(int i = 0; i < 100; i++){
+      nbfig2[i]-= (i + 1) * (i + 1);
+    }
   }
   if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n5++;
+    for(int i = 0; i < 100; i++){
+      nbfig2[i]+= i + 1;
+    }
   }
   if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n5--;
+    for(int i = 0; i < 100; i++){
+      nbfig2[i]-= i + 1;
+    }
   }
   if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n6++;
+    for(int i = 0; i < 100; i++){
+      nbfig2[i]++;
+    }
   }
   if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n6--;
+    for(int i = 0; i < 100; i++){
+      nbfig2[i]--;
+    }
   }
 }
 PShape myBox(float sideSize){

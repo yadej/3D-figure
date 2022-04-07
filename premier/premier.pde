@@ -21,8 +21,10 @@ float eyeX, eyeY,eyeZ;
 int d = 200;
 int dir;
 color couleur[] = new color[5];
-int nbfig1[] = new int[100];
-int nbfig2[] = new int[100];
+int N1 = 627;
+int N2 = 690;
+int nbfig1[] = new int[N1];
+int nbfig2[] = new int[N2];
 
 void setup()
 {
@@ -32,11 +34,13 @@ void setup()
   couleur[2] = color(255,255,0);
   couleur[3] = color(0,0,255);
   couleur[4] = color(255,0,0);
-  for(int i = 0; i < 100; i++){
+  for(int i = 0; i < N1; i++){
     nbfig1[i] = i + 1;
+  }
+  for(int i=0; i < N2; i++){
     nbfig2[i] = i + 1;
   }
-  size(1600,1000, P3D);
+  size(1200,800, P3D);
   pg = createGraphics(300,300,P2D);
   txtImg = createGraphics(40,40, P2D);
   txtSph = createGraphics(40,40);
@@ -146,7 +150,7 @@ void draw()
               txtImg.endDraw();
               ps.setTexture(txtImg);
           }else{
-            couleur(n);
+            couleur(nbfig1[n]);
           }
           shape(ps);
           /*if(n < 100){
@@ -169,6 +173,7 @@ void draw()
       }
       popMatrix();
     }
+    println(n);
     if(fig2 != f2(1)){
         fig2 = f2(1);
         k = 0;
@@ -181,7 +186,7 @@ void draw()
         psh = createShape(SPHERE,15);
         couleur2(1);
         shape(psh);
-        for(int i = 4;i < 50; i = i + 2){
+        for(int i = 4;i < 37; i = i + 2){
           translate(0,0,-20);
           for(float ang = -PI; ang<PI; ang+=PI/i) {
             pushMatrix();
@@ -204,7 +209,7 @@ void draw()
               //txtSph.background(0, 0, 0, 0);
               //txtSph.textAlign(CENTER);
               txtSph.fill(0);
-              txtSph.textSize(5);
+              txtSph.textSize(10);
               txtSph.text(s,25,25);
               txtSph.endDraw();
               noStroke();
@@ -212,7 +217,7 @@ void draw()
               psh.setTexture(txtSph);
 
             }else{
-              couleur2(n);
+              couleur2(nbfig2[n]);
             }
             shape(psh);
             popMatrix();
@@ -223,6 +228,7 @@ void draw()
       popMatrix();
        
     }
+    println(n);
 }
 
 void couleur(int n){
@@ -330,7 +336,7 @@ void mouseClicked()
   if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n1++;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N1; i++){
       nbfig1[i] += (i + 1) * (i +1);
       
     }
@@ -338,77 +344,77 @@ void mouseClicked()
   if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n1--;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N1; i++){
       nbfig1[i] -= (i + 1) * (i +1);
     }
   }
   if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n2++;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N1; i++){
       nbfig1[i] += i + 1;
     }
   }
   if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n2--;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N1; i++){
       nbfig1[i] -= i + 1;
     }
   }
   if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n3++;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N1; i++){
       nbfig1[i]++;
     }
   }
   if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n3--;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N1; i++){
       nbfig1[i]++;
     }
   }
   if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n4++;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N2; i++){
       nbfig2[i]+= (i + 1) * (i + 1);
     }
   }
   if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n4--;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N2; i++){
       nbfig2[i]-= (i + 1) * (i + 1);
     }
   }
   if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n5++;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N2; i++){
       nbfig2[i]+= i + 1;
     }
   }
   if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n5--;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N2; i++){
       nbfig2[i]-= i + 1;
     }
   }
   if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n6++;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N2; i++){
       nbfig2[i]++;
     }
   }
   if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n6--;
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < N2; i++){
       nbfig2[i]--;
     }
   }

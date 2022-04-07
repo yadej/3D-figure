@@ -1,12 +1,13 @@
 import java.util.Map;
 
 
-PGraphics pg;
+PGraphics g1;
 PGraphics txtImg;
 PGraphics txtSph;
 PShape ps;
 PShape psh;
 PShader text;
+PShader picking;
 HashMap<String,Integer> hm = new HashMap<String,Integer>();
 String s;
 int n1 = 0;
@@ -34,6 +35,7 @@ int nbfig2[] = new int[N2];
 void setup()
 {
   text = loadShader("TextFrag.glsl","TextVertex.glsl");
+  picking = loadShader("PickerFrag.glsl","PickerVert.glsl");
   couleur[0] = color(128,128,0);
   couleur[1] = color(0,255,0);
   couleur[2] = color(255,255,0);
@@ -46,7 +48,7 @@ void setup()
     nbfig2[i] = i + 1;
   }
   size(1200,800, P3D);
-  pg = createGraphics(300,300,P2D);
+  g1 = createGraphics(1200,800,P3D);
   txtImg = createGraphics(40,40, P2D);
   txtSph = createGraphics(40,40);
   background(100,100,100);
@@ -97,7 +99,7 @@ void draw()
     eyeX = d*cos(radians(ang));
     //perspective();
     //camera(eyeX, eyeY, eyeZ, width/2, height/2 +100, 10, 0, 1, 0);
-    stroke(0);
+    //stroke(0);
     textSize(32);
     if(fig1 != f1(1) || fig2 != f2(1)){
       resetShader();
@@ -109,14 +111,23 @@ void draw()
     //rotateY(PI/6);
     //rotateZ(PI/6);
     
-      stroke(0);
+      stroke(128);
       pushMatrix();
       translate(width/4,height/2);
       rotate(frameCount * PI/ 50.0);
       ps = myBox(20);
       //rotate(2 * frameCount * PI/ 60.0);
       c = couleur1(1);
-      ps.setFill(c);
+      s = "" + nbfig1[0];
+      txtImg.beginDraw();
+      txtImg.background(c);
+      //txtSph.background(0, 0, 0, 0);
+      txtImg.textAlign(CENTER);
+      txtImg.fill(0);
+      txtImg.textSize(15);
+      txtImg.text(s,20,20);
+      txtImg.endDraw();
+      ps.setTexture(txtImg);
       shape(ps);
       a = 1;
       n = 2;
@@ -214,7 +225,8 @@ void draw()
         }
       }
       popMatrix();
-       
+      int p = g1.get(mouseX, mouseY);
+      println( blue(p), green(p),red(p));
   
 }
 
@@ -365,6 +377,101 @@ void mouseClicked()
       nbfig2[i]--;
     }
   }
+  
+  int r = 0;
+  int g = 1;
+  int b = 0;
+  g1.loadPixels() ;
+  g1.beginDraw();
+  g1.background(r);
+   //preparation du dessin ici (translate, rotate, etc
+  r++;
+  g1.shader(picking);
+  g1.pushMatrix();
+      g1.translate(width/4,height/2);
+      g1.rotate(frameCount * PI/ 50.0);
+      color c = color(r,g,b);
+      ps = myBox(20);
+      //rotate(2 * frameCount * PI/ 60.0);
+      ps.setFill(c);
+      r++;
+      g1.shape(ps);
+      a = 1;
+      n = 2;
+      k = 0;
+      dir = 0;
+      for(int i = 1; i<50; i++){
+        if(i == 49)a--;
+        for(int j = 0; j < a ;j++){
+          ps = myBox(20);
+          if(dir == 0)g1.translate(20,0);
+          if(dir == 1)g1.translate(0,-20);
+          if(dir == 2)g1.translate(-20,0);
+          if(dir == 3)g1.translate(0,20);
+          if(k == 0 && a%2 ==1 && j == a-1)g1.translate(0,0,-20);
+          c = color(r,g,b);
+          r++;
+          if(r == 256){
+            r = 0;
+            g++;
+            if(g == 256){
+              b++;
+            }
+          }
+          ps.setFill(c);
+          g1.shape(ps);
+          n++;
+        }
+        k++;
+        if(k ==2){
+          a++;
+          k = 0;
+        }
+        if(dir == 3){
+           dir = 0;
+         }else{
+            dir++;
+         }
+         
+      }
+      g1.popMatrix();
+        k = 0;
+        n = 1;
+        g1.pushMatrix();
+        g1.translate(3* width/4, height/2);
+        rotate(frameCount * PI/ 50.0);
+        psh = createShape(SPHERE,15);
+        c = color(r,g,b);
+        r++;
+        psh.setFill(c);
+        g1.shape(psh);
+        for(int i = 4;i < 37; i = i + 2){
+          g1.translate(0,0,-20);
+          for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
+            g1.pushMatrix();
+            psh = createShape(SPHERE,15);
+            g1.translate(i* 5 *cos(ang), i* 5 *sin(ang));
+            c = color(r,g,b);
+            r++;
+            if(r == 256){
+              r = 0;
+              g++;
+              if(g == 256){
+                b++;
+              }
+            }
+            psh.setFill(c);
+            g1.shape(psh);
+            g1.popMatrix();
+            n++;
+     
+        }
+      }
+      g1.popMatrix();
+   // il faudra peut-etre recréer les modèles ici
+  g1.resetShader();
+  g1.endDraw();
+  
 }
 PShape myBox(float sideSize){
   float size = sideSize;

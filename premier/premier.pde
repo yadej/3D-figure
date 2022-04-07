@@ -3,7 +3,7 @@ PGraphics txtImg;
 PGraphics txtSph;
 PShape ps;
 PShape psh;
-//PShader test;
+PShader text;
 String s;
 int n1 = 0;
 int n2 = 1; 
@@ -28,7 +28,7 @@ int nbfig2[] = new int[N2];
 
 void setup()
 {
-  //test =loadShader("TestFrag.glsl","TestVertex.glsl");
+  text =loadShader("TextFrag.glsl","TextVertex.glsl");
   couleur[0] = color(128,128,0);
   couleur[1] = color(0,255,0);
   couleur[2] = color(255,255,0);
@@ -94,6 +94,7 @@ void draw()
     stroke(0);
     textSize(32);
     if(fig1 != f1(1) || fig2 != f2(1)){
+      resetShader();
       drawF();
     }
     //affiche fonction
@@ -102,7 +103,6 @@ void draw()
     //camera(eyeX, eyeY, eyeZ, width/2, height/2 +100, 10, 0, 1, 0);
     //rotateY(PI/6);
     //rotateZ(PI/6);
-    //shader(test);
     if(fig1 != f1(1)){
       
       stroke(0);
@@ -118,7 +118,7 @@ void draw()
       n = 2;
       k = 0;
       dir = 0;
-      
+      shader(text);
       for(int i = 1; i<50; i++){
         if(i == 49)a--;
         for(int j = 0; j < a ;j++){
@@ -150,6 +150,7 @@ void draw()
               txtImg.endDraw();
               ps.setTexture(txtImg);
           }else{
+            resetShader();
             couleur(nbfig1[n]);
           }
           shape(ps);
@@ -186,6 +187,7 @@ void draw()
         psh = createShape(SPHERE,15);
         couleur2(1);
         shape(psh);
+        shader(text);
         for(int i = 4;i < 37; i = i + 2){
           translate(0,0,-20);
           for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
@@ -217,6 +219,7 @@ void draw()
               psh.setTexture(txtSph);
 
             }else{
+              resetShader();
               couleur2(nbfig2[n]);
             }
             shape(psh);

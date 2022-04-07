@@ -145,8 +145,9 @@ void draw()
               txtImg.text(s,20,20);
               txtImg.endDraw();
               ps.setTexture(txtImg);
+          }else{
+            couleur(n);
           }
-          couleur(n);
           shape(ps);
           /*if(n < 100){
             textCube(n);
@@ -187,17 +188,17 @@ void draw()
             psh = createShape(SPHERE,15);
             translate(i* 5 *cos(ang), i* 5 *sin(ang));
             if(n < 100){
-              s = "" + nbfig2[i];
+              s = "" + nbfig2[n];
               txtSph.beginDraw();
-              if(estNeg(nbfig2[i])){
+              if(estNeg(nbfig2[n])){
                 txtSph.background(couleur[0]);
-              }else if(estParfait(nbfig2[i])){
+              }else if(estParfait(nbfig2[n])){
                 txtSph.background(couleur[1]);
-              }else if(estPremier(nbfig2[i])){
+              }else if(estPremier(nbfig2[n])){
                   txtSph.background(couleur[2]);
-              }else if(estAbondant(nbfig2[i])){
+              }else if(estAbondant(nbfig2[n])){
                 txtSph.background(couleur[3]);
-              }else if(estDefaillant(nbfig2[i])){
+              }else if(estDefaillant(nbfig2[n])){
                 txtSph.background(couleur[4]);
               }
               //txtSph.background(0, 0, 0, 0);
@@ -210,10 +211,11 @@ void draw()
 
               psh.setTexture(txtSph);
 
+            }else{
+              couleur2(n);
             }
-            couleur2(n);
             shape(psh);
-            popMatrix(); 
+            popMatrix();
             n++;
      
         }

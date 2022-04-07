@@ -38,6 +38,8 @@ void setup()
   }
   size(1600,1000, P3D);
   pg = createGraphics(300,300,P2D);
+  txtImg = createGraphics(40,40, P2D);
+  txtSph = createGraphics(40,40);
   background(100,100,100);
   frameRate(10);
   println("hello world");
@@ -124,7 +126,6 @@ void draw()
           if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
           if(n < 100){
               s = "" + nbfig1[n];
-              txtImg = createGraphics(40,40, P2D);
               txtImg.beginDraw();
               if(estNeg(nbfig1[n])){
                 txtImg.background(couleur[0]);
@@ -187,7 +188,6 @@ void draw()
             translate(i* 5 *cos(ang), i* 5 *sin(ang));
             if(n < 100){
               s = "" + nbfig2[i];
-              txtSph = createGraphics(40,40);
               txtSph.beginDraw();
               if(estNeg(nbfig2[i])){
                 txtSph.background(couleur[0]);

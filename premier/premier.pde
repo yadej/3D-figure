@@ -177,7 +177,7 @@ void draw()
     if(fig2 != f2(1)){
         fig2 = f2(1);
         k = 0;
-        n = 2;
+        n = 1;
         psh = createShape(SPHERE,15);
         pushMatrix();
         translate(3* width/4, height/2);
@@ -188,7 +188,7 @@ void draw()
         shape(psh);
         for(int i = 4;i < 37; i = i + 2){
           translate(0,0,-20);
-          for(float ang = -PI; ang<PI; ang+=PI/i) {
+          for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
             pushMatrix();
             psh = createShape(SPHERE,15);
             translate(i* 5 *cos(ang), i* 5 *sin(ang));

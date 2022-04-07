@@ -25,8 +25,10 @@ int dir;
 HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
 int N1 = 627;
 int N2 = 690;
-int nbfig1[] = new int[N1];
-int nbfig2[] = new int[N2];
+HashMap<Integer, Integer> nbfig1 = new HashMap<Integer, Integer>();
+//int nbfig1[] = new int[N1];
+HashMap<Integer, Integer> nbfig2 = new HashMap<Integer, Integer>();
+//int nbfig2[] = new int[N2];
 
 void setup()
 {
@@ -42,10 +44,12 @@ void setup()
   //couleur[3] = color(0,0,255);
   //couleur[4] = color(255,0,0);
   for(int i = 0; i < N1; i++){
-    nbfig1[i] = i + 1;
+    //nbfig1[i] = i + 1;
+    nbfig1.put(i, i+1);
   }
   for(int i=0; i < N2; i++){
-    nbfig2[i] = i + 1;
+    //nbfig2[i] = i + 1;
+    nbfig2.put(i, i+1);
   }
   size(1200,800, P3D);
   pg = createGraphics(300,300,P2D);
@@ -53,28 +57,28 @@ void setup()
   txtSph = createGraphics(40,40);
   background(100,100,100);
   frameRate(10);
-  println("hello world");
+  //println("hello world");
   int a = 5;
-  println(estPremier(a));
+  //println(estPremier(a));
   //construitFigure();
-  for(int i = 0; i <= 150; i++)
+  /*for(int i = 0; i <= 150; i++)
   {
     if(estPremier(i))
     {
       println(i);
     }
-  }
-  println(estParfait(496)); //renvoie vrai
-  println(estParfait(13)); // renvoie faux
+  }*/
+  //println(estParfait(496)); //renvoie vrai
+  //println(estParfait(13)); // renvoie faux
   //println(estAbondant(8)); // renvoie vrai
   //println(estAbondant(10)); // renvoie faux
-  for(int i = 0; i <= 25; i++)
+  /*for(int i = 0; i <= 25; i++)
   {
     if(estAbondant(i))
     {
       println(i + ": est abondant");
     }
-  }
+  }*/
   eyeX = width/2;
   eyeY = height/2;
   eyeZ = d;
@@ -136,17 +140,17 @@ void draw()
           if(dir == 3)translate(0,20);
           if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20); 
           if(n < 100){
-              s = "" + nbfig1[n];
+              s = "" + nbfig1.get(n);
               txtImg.beginDraw();
-              if(estNeg(nbfig1[n])){
+              if(estNeg(nbfig1.get(n))){
                 txtImg.background(hm.get(0));
-              }else if(estParfait(nbfig1[n])){
+              }else if(estParfait(nbfig1.get(n))){
                 txtImg.background(hm.get(1));
-              }else if(estPremier(nbfig1[n])){
+              }else if(estPremier(nbfig1.get(n))){
                 txtImg.background(hm.get(2));
-              }else if(estAbondant(nbfig1[n])){
+              }else if(estAbondant(nbfig1.get(n))){
                 txtImg.background(hm.get(3));
-              }else if(estDefaillant(nbfig1[n])){
+              }else if(estDefaillant(nbfig1.get(n))){
                 txtImg.background(hm.get(4));
               }
               //txtSph.background(0, 0, 0, 0);
@@ -158,7 +162,7 @@ void draw()
               ps.setTexture(txtImg);
           }else{
             resetShader();
-            couleur(nbfig1[n]);
+            couleur(nbfig1.get(n));
           }
           shape(ps);
           /*if(n < 100){
@@ -181,7 +185,7 @@ void draw()
       }
       popMatrix();
     }
-    println(n);
+    //println(n);
     if(fig2 != f2(1)){
         fig2 = f2(1);
         k = 0;
@@ -202,17 +206,17 @@ void draw()
             psh = createShape(SPHERE,15);
             translate(i* 5 *cos(ang), i* 5 *sin(ang));
             if(n < 100){
-              s = "" + nbfig2[n];
+              s = "" + nbfig2.get(n);
               txtSph.beginDraw();
-              if(estNeg(nbfig2[n])){
+              if(estNeg(nbfig2.get(n))){
                 txtSph.background(hm.get(0));
-              }else if(estParfait(nbfig2[n])){
+              }else if(estParfait(nbfig2.get(n))){
                 txtSph.background(hm.get(1));
-              }else if(estPremier(nbfig2[n])){
+              }else if(estPremier(nbfig2.get(n))){
                   txtSph.background(hm.get(2));
-              }else if(estAbondant(nbfig2[n])){
+              }else if(estAbondant(nbfig2.get(n))){
                 txtSph.background(hm.get(3));
-              }else if(estDefaillant(nbfig2[n])){
+              }else if(estDefaillant(nbfig2.get(n))){
                 txtSph.background(hm.get(4));
               }
               //txtSph.background(0, 0, 0, 0);
@@ -227,7 +231,7 @@ void draw()
 
             }else{
               resetShader();
-              couleur2(nbfig2[n]);
+              couleur2(nbfig2.get(n));
             }
             shape(psh);
             popMatrix();
@@ -238,7 +242,7 @@ void draw()
       popMatrix();
        
     }
-    println(n);
+    //println(n);
 }
 
 void couleur(int n){
@@ -347,7 +351,7 @@ void mouseClicked()
   {
     n1++;
     for(int i = 0; i < N1; i++){
-      nbfig1[i] += (i + 1) * (i +1);
+      nbfig1.replace(i, nbfig1.get(i) + (i + 1) * (i +1));
       
     }
   }
@@ -355,77 +359,77 @@ void mouseClicked()
   {
     n1--;
     for(int i = 0; i < N1; i++){
-      nbfig1[i] -= (i + 1) * (i +1);
+      nbfig1.replace(i, nbfig1.get(i) - (i + 1) * (i +1));
     }
   }
   if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n2++;
     for(int i = 0; i < N1; i++){
-      nbfig1[i] += i + 1;
+      nbfig1.replace(i, nbfig1.get(i) + i + 1);
     }
   }
   if(mouseX >= 200 && mouseX < 200+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n2--;
     for(int i = 0; i < N1; i++){
-      nbfig1[i] -= i + 1;
+      nbfig1.replace(i, nbfig1.get(i) - (i + 1));
     }
   }
   if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n3++;
     for(int i = 0; i < N1; i++){
-      nbfig1[i]++;
+      nbfig1.replace(i, nbfig1.get(i)+1);
     }
   }
   if(mouseX >= 250 && mouseX < 250+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n3--;
     for(int i = 0; i < N1; i++){
-      nbfig1[i]++;
+      nbfig1.replace(i, nbfig1.get(i)-1);
     }
   }
   if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n4++;
     for(int i = 0; i < N2; i++){
-      nbfig2[i]+= (i + 1) * (i + 1);
+      nbfig2.replace(i, nbfig2.get(i) + (i + 1) * (i +1));
     }
   }
   if(mouseX >= width-200 && mouseX < width-200+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n4--;
     for(int i = 0; i < N2; i++){
-      nbfig2[i]-= (i + 1) * (i + 1);
+      nbfig2.replace(i, nbfig2.get(i) - (i + 1) * (i +1));
     }
   }
   if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n5++;
     for(int i = 0; i < N2; i++){
-      nbfig2[i]+= i + 1;
+      nbfig2.replace(i, nbfig2.get(i) + i + 1);
     }
   }
   if(mouseX >= width-120 && mouseX < width-120+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n5--;
     for(int i = 0; i < N2; i++){
-      nbfig2[i]-= i + 1;
+      nbfig2.replace(i, nbfig2.get(i) - (i + 1));
     }
   }
   if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n6++;
     for(int i = 0; i < N2; i++){
-      nbfig2[i]++;
+      nbfig2.replace(i, nbfig2.get(i)+1);
     }
   }
   if(mouseX >= width-60 && mouseX < width-60+20 && mouseY >= 55 && mouseY < 55+20)
   {
     n6--;
     for(int i = 0; i < N2; i++){
-      nbfig2[i]--;
+      nbfig2.replace(i, nbfig2.get(i)-1);
     }
   }
 }

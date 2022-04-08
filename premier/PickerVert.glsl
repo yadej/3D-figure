@@ -1,10 +1,21 @@
- 
-uniform mat4 m_pvm;
- 
-in vec4 position;
+
+uniform mat4 transform;
+uniform mat3 normalMatrix;
+uniform vec3 lightNormal;
+
+attribute vec4 position;
+attribute vec4 color;
+attribute vec3 normal;
+attribute float idnum;
+
+varying vec4 vertColor;
+varying vec3 vertNormal;
+varying vec3 vertLightDir;
+varying float vertexid;
 
 void main()
 {
-    gl_Position = m_pvm * position ;
-   
+  gl_Position = transform * position;
+  vertexid = idnum;
+  
 }

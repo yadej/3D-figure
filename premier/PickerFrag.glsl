@@ -3,11 +3,14 @@ precision mediump float;
 precision mediump int;
 #endif
 
-uniform ivec4 code;
- 
-out vec4 outputF;
+varying float vertexid;
+//varying vec4 vertColor;
 
 void main()
 {
-    outputF = vec4(code/255.0, 0, 0, 0);
+  float N0 = mod(vertexid, 256);
+  //float N1 = mod ((vertexid-N0 ) /256.0), 256);
+  //float N2 = mod ((vertexid-N0-N1*256 ) /256*256), 256);
+  gl_FragColor = vec4(N0/255.0, N0/255.0, N0/255.0, 1.0);
+  
 }

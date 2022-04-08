@@ -85,11 +85,7 @@ void setup()
 void draw()
 {    
     background(100);
-    /*camera(width/2+map(mouseX, 0, width, -2*width, 2*width), 
-    height/2+map(mouseY, 0, height, -height, height), 
-    height/2/tan(PI*30.0 / 180.0), 
-    width, height/2.0, 0, 
-    0, 1, 0);*/
+    
     //camera(width/2,height/2,0, 0,0,0,0,1,0);
     ang++;
     if (ang>=360){
@@ -114,7 +110,7 @@ void draw()
       stroke(128);
       pushMatrix();
       translate(width/4,height/2);
-      rotate(frameCount * PI/ 50.0);
+      //rotate(frameCount * PI/ 50.0);
       ps = myBox(20);
       //rotate(2 * frameCount * PI/ 60.0);
       c = couleur1(1);
@@ -162,9 +158,7 @@ void draw()
             ps.setFill(c);
           }
           shape(ps);
-          /*if(n < 100){
-            textCube(n);
-          }*/
+      
           
           n++;
         }
@@ -186,7 +180,7 @@ void draw()
         psh = createShape(SPHERE,15);
         pushMatrix();
         translate(3* width/4, height/2);
-        rotate(frameCount * PI/ 50.0);
+        //rotate(frameCount * PI/ 50.0);
         noStroke();
         psh = createShape(SPHERE,15);
         c = couleur1(nbfig2[0]);
@@ -225,8 +219,7 @@ void draw()
         }
       }
       popMatrix();
-      int p = g1.get(mouseX, mouseY);
-      println( blue(p), green(p),red(p));
+      
   
 }
 
@@ -381,44 +374,33 @@ void mouseClicked()
   int r = 0;
   int g = 1;
   int b = 0;
+  
   g1.loadPixels() ;
   g1.beginDraw();
-  g1.background(r);
+  g1.background(color(-1));
    //preparation du dessin ici (translate, rotate, etc
-  r++;
   g1.shader(picking);
   g1.pushMatrix();
       g1.translate(width/4,height/2);
-      g1.rotate(frameCount * PI/ 50.0);
-      color c = color(r,g,b);
-      ps = myBox(20);
+      //g1.rotate(frameCount * PI/ 50.0);
+      n = 1;
+      ps = myBoxG1(20,n);
       //rotate(2 * frameCount * PI/ 60.0);
-      ps.setFill(c);
-      r++;
       g1.shape(ps);
       a = 1;
-      n = 2;
       k = 0;
       dir = 0;
+      n++;
       for(int i = 1; i<50; i++){
         if(i == 49)a--;
         for(int j = 0; j < a ;j++){
-          ps = myBox(20);
+          ps = myBoxG1(20,n);
           if(dir == 0)g1.translate(20,0);
           if(dir == 1)g1.translate(0,-20);
           if(dir == 2)g1.translate(-20,0);
           if(dir == 3)g1.translate(0,20);
           if(k == 0 && a%2 ==1 && j == a-1)g1.translate(0,0,-20);
-          c = color(r,g,b);
-          r++;
-          if(r == 256){
-            r = 0;
-            g++;
-            if(g == 256){
-              b++;
-            }
-          }
-          ps.setFill(c);
+          
           g1.shape(ps);
           n++;
         }
@@ -439,28 +421,18 @@ void mouseClicked()
         n = 1;
         g1.pushMatrix();
         g1.translate(3* width/4, height/2);
-        rotate(frameCount * PI/ 50.0);
+        //rotate(frameCount * PI/ 50.0);
         psh = createShape(SPHERE,15);
-        c = color(r,g,b);
-        r++;
-        psh.setFill(c);
+        psh.attrib("idnum", (float)n);
         g1.shape(psh);
+        n++;
         for(int i = 4;i < 37; i = i + 2){
           g1.translate(0,0,-20);
           for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
             g1.pushMatrix();
             psh = createShape(SPHERE,15);
             g1.translate(i* 5 *cos(ang), i* 5 *sin(ang));
-            c = color(r,g,b);
-            r++;
-            if(r == 256){
-              r = 0;
-              g++;
-              if(g == 256){
-                b++;
-              }
-            }
-            psh.setFill(c);
+            psh.attrib("idnum", (float)n);
             g1.shape(psh);
             g1.popMatrix();
             n++;
@@ -471,6 +443,8 @@ void mouseClicked()
    // il faudra peut-etre recréer les modèles ici
   g1.resetShader();
   g1.endDraw();
+  int p = g1.get(mouseX, mouseY);
+  println(red(p),green(p),blue(p));
   
 }
 PShape myBox(float sideSize){
@@ -523,6 +497,60 @@ PShape myBox(float sideSize){
   return p;
 }
 
+PShape myBoxG1(float sideSize, int n){
+  float size = sideSize;
+  PShape p = createShape(GROUP);
+  PShape a1 = createShape();
+  PShape a2 = createShape();
+  PShape a3 = createShape();
+  PShape a4 = createShape();
+  PShape a5 = createShape();
+  a1.beginShape();
+  a1.attrib("idnum", (float)n);
+  a1.vertex(0, 0, 0, 0 , 0);
+  a1.vertex(0,  0, size, 0 ,40);
+  a1.vertex(0,  size, size, 40, 40);
+  a1.vertex(0,  size, 0, 40 , 0);
+  a1.endShape(CLOSE);
+  
+  a2.beginShape();
+  a2.attrib("idnum", (float)n);
+  a2.vertex(0, 0, size, 0 , 0);
+  a2.vertex(0,  size, size, 0, 40);
+  a2.vertex(size,   size, size,40 ,40);
+  a2.vertex(size,  0, size,40, 0);
+  a2.endShape(CLOSE);
+  
+  a3.beginShape();
+  a3.attrib("idnum", (float)n);
+  a3.vertex(size, 0, 0, 40, 40);
+  a3.vertex(size, size, 0,0 ,40);
+  a3.vertex(size, size, size,0 ,0);
+  a3.vertex(size,   0, size,40,0);
+  a3.endShape();
+  
+  a4.beginShape();
+  a4.attrib("idnum", (float)n);
+  a4.vertex(0,  0, 0,0 ,0);
+  a4.vertex(0, 0, size, 0 ,40);
+  a4.vertex(size, 0, size,40 ,40);
+  a4.vertex(size, 0, 0,40 ,0);
+  a4.endShape();
+  
+  a5.beginShape();
+  a5.attrib("idnum", (float)n);
+  a5.vertex(0,  size, 0 , 0, 40);
+  a5.vertex(0,   size, size,0 , 0);
+  a5.vertex(size,  size, size, 40, 0);
+  a5.vertex(size, size, 0, 40, 40);
+  a5.endShape();
+  p.addChild(a1);
+  p.addChild(a2);
+  p.addChild(a3);
+  p.addChild(a4);
+  p.addChild(a5);
+  return p;
+}
 int sd(int n)
 {
   int somme = 0;

@@ -51,6 +51,7 @@ void setup()
   }
   size(1200,800, P3D);
   g1 = createGraphics(1200,800,P3D);
+  picking.set("idselect", 3.0f);
   txtImg = createGraphics(40,40, P2D);
   txtSph = createGraphics(40,40);
   background(100,100,100);
@@ -86,13 +87,15 @@ void setup()
 
 void draw()
 {    
-    background(100);
+  
+    //background(100);
     
     //camera(width/2,height/2,0, 0,0,0,0,1,0);
     ang++;
     if (ang>=360){
       ang=0;
     }
+    /*
     eyeY = (height/2)-d*(sin(radians(ang)));
     eyeX = d*cos(radians(ang));
     //perspective();
@@ -221,6 +224,7 @@ void draw()
         }
       }
       popMatrix();
+      */
       
 }
 
@@ -371,11 +375,7 @@ void mouseClicked()
       nbfig2[i]--;
     }
   }
-  
-  int r = 0;
-  int g = 1;
-  int b = 0;
-  
+
   g1.loadPixels() ;
   g1.beginDraw();
   g1.background(color(-1));
@@ -384,6 +384,7 @@ void mouseClicked()
   g1.rotateX(PI/6);
   g1.pushMatrix();
       g1.translate(width/4,height/2);
+      //g1.rotate(ang * PI/ 50.0);
       //g1.rotate(frameCount * PI/ 50.0);
       n = 1;
       ps = myBoxG1(20,n);
@@ -422,18 +423,19 @@ void mouseClicked()
         k = 0;
         n = 1;
         g1.pushMatrix();
-        g1.translate(3* width/4, height/2);
+        g1.translate(3* width/4-10, height/2-10);
+        //g1.rotate(ang * PI/ 50.0);
         //rotate(frameCount * PI/ 50.0);
-        psh = myBoxG1(12,n);
+        psh = myBoxG1(15,n);
         
         g1.shape(psh);
         n++;
         for(int i = 4;i < 37; i = i + 2){
           g1.translate(0,0,-20);
-          for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
+          for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
             g1.pushMatrix();
-            psh = myBoxG1(12,n);
-            g1.translate(i* 5 *cos(ang), i* 5 *sin(ang));
+            psh = myBoxG1(15,n);
+            g1.translate(i* 5 *cos(angle), i* 5 *sin(angle));
             g1.shape(psh);
             g1.popMatrix();
             n++;
@@ -445,8 +447,9 @@ void mouseClicked()
   g1.resetShader();
   g1.endDraw();
   int p = g1.get(mouseX, mouseY);
+  println(red(p) + green(p) * 256 + blue(p) * 256 * 256);
   println(red(p),green(p),blue(p));
-  //image(g1,0,0);
+  image(g1,0,0);
   
 }
 PShape myBox(float sideSize){

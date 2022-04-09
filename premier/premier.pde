@@ -23,8 +23,8 @@ int a;
 int n;
 int k;
 int c;
-int boucle1 = 50;
-int boucle2 = 37;
+int boucle1 = 22;
+int boucle2 = 15;
 float ang = 0;
 float eyeX, eyeY,eyeZ;
 int d = 200;
@@ -53,7 +53,6 @@ void setup()
   }
   size(1200,800, P3D);
   g1 = createGraphics(1200,800,P3D);
-  text.set("idselect", 0.0f);
   norm.set("idselect", 0.0f);
   txtImg = createGraphics(40,40, P2D);
   txtSph = createGraphics(40,40);
@@ -89,7 +88,7 @@ void setup()
 }
 
 void draw()
-{    
+{     //<>//
   
     background(100);
     
@@ -116,12 +115,17 @@ void draw()
       stroke(128);
       pushMatrix();
       translate(width/4,height/2);
-      //rotate(frameCount * PI/ 50.0);
+      rotate(frameCount * PI/ 50.0);
       ps = myBoxG1(20,1);
       //rotate(2 * frameCount * PI/ 60.0);
       c = couleur1(1);
       s = "" + nbfig1[0];
+      shader(norm);
+      ps.setFill(c); //<>//
+      shape(ps);
+      resetShader();
       shader(text);
+      psh = myBoxG1(20,1);
       txtImg.beginDraw();
       txtImg.background(c);
       txtImg.textAlign(CENTER);
@@ -129,10 +133,10 @@ void draw()
       txtImg.textSize(15);
       txtImg.text(s,20,20);
       txtImg.endDraw();
-      ps.setTexture(txtImg);
-      shape(ps);
+      psh.setTexture(txtImg);
+      shape(psh);
       resetShader();
-      a = 1;
+      a = 1; //<>//
       n = 2;
       k = 0;
       dir = 0;
@@ -145,19 +149,25 @@ void draw()
           if(dir == 2)translate(-20,0);
           if(dir == 3)translate(0,20);
           if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
-          c = couleur1(nbfig1[n]);
-         if(n < 100){
-               shader(text);
-              s = "" + nbfig1[n];
+          c = couleur1(nbfig1[n-1]);
+          if(n < 100){
+              shader(norm);
+              ps.setFill(c);
+              shape(ps);
+              resetShader();
+              psh = myBoxG1(20,1);
+              shader(text);
               txtImg.beginDraw();
-              txtImg.background(c);
+              txtImg.clear();
+              s = "" + nbfig2[n-1];
+              txtImg.background(c, 0);
               txtImg.textAlign(CENTER);
               txtImg.fill(0);
               txtImg.textSize(15);
               txtImg.text(s,20,20);
               txtImg.endDraw();
-              ps.setTexture(txtImg);
-              shape(ps);
+              psh.setTexture(txtImg);
+              shape(psh);
               resetShader();
           }else{
             shader(norm);
@@ -187,41 +197,52 @@ void draw()
         n = 1;
         pushMatrix();
         translate(3* width/4, height/2);
-        //rotate(frameCount * PI/ 50.0);
+        rotate(frameCount * PI/ 50.0);
         psh = myBoxG1(20,n);
         c = couleur1(nbfig2[0]);
-        shader(text);
-        txtSph.beginDraw();
-        txtSph.background(c);
-        s = "" + nbfig2[0];
-        txtSph.textAlign(CENTER);
-        txtSph.fill(0);
-        txtSph.textSize(15);
-        txtSph.text(s,25,25);
-        txtSph.endDraw();
-        psh.setTexture(txtSph);
+        shader(norm);
+        psh.setFill(c);
         shape(psh);
+        resetShader();
+        ps = myBoxG1(20,1);
+        shader(text);
+        txtImg.beginDraw();
+        s = "" + nbfig2[n];
+        txtImg.background(c);
+        txtImg.textAlign(CENTER);
+        txtImg.fill(0);
+        txtImg.textSize(15);
+        txtImg.text(s,20,20);
+        txtImg.endDraw();
+        ps.setTexture(txtImg);
+        shape(ps);
         resetShader();
         n++;
         for(int i = 4;i < boucle2; i = i + 2){
           translate(0,0,-20);
           for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
-           c = couleur1(nbfig2[n]);
+           c = couleur1(nbfig2[n-1]);
            pushMatrix();
            psh = myBoxG1(20,n);
            translate(i* 5 *cos(ang), i* 5 *sin(ang));
            if(n < 100){
-             shader(text);
-              s = "" + nbfig2[n];
-              txtSph.beginDraw();
-              txtSph.background(c);
-              txtSph.textAlign(CENTER);
-              txtSph.fill(0);
-              txtSph.textSize(15);
-              txtSph.text(s,25,25);
-              txtSph.endDraw();
-              psh.setTexture(txtSph);
+             shader(norm);
+             psh.setFill(c);
               shape(psh);
+              resetShader();
+              
+              shader(text);
+              ps = myBoxG1(20,n);
+              s = "" + nbfig2[n-1];
+              txtImg.beginDraw();
+              txtImg.background(c,0);
+              txtImg.textAlign(CENTER);
+              txtImg.fill(0);
+              txtImg.textSize(15);
+              txtImg.text(s,20,20);
+              txtImg.endDraw();
+              ps = myBoxG1(20,n, txtImg);
+              shape(ps);
               resetShader();
             }else{
               shader(norm);
@@ -388,7 +409,7 @@ void mouseClicked()
   if(mouseY < 50){
     
   }else if( red(mp) == 100 ){
-    text.set("idselect", 0.0f);
+    norm.set("idselect", 0.0f);
   }else{
   g1.loadPixels() ;
   g1.beginDraw();
@@ -398,7 +419,7 @@ void mouseClicked()
   g1.rotateX(PI/6);
   g1.pushMatrix();
       g1.translate(width/4,height/2);
-      //g1.rotate(ang * PI/ 50.0);
+      g1.rotate(ang * PI/ 50.0);
       //g1.rotate(frameCount * PI/ 50.0);
       n = 1;
       ps = myBoxG1(20,n);
@@ -438,7 +459,7 @@ void mouseClicked()
         n = 1;
         g1.pushMatrix();
         g1.translate(3* width/4, height/2);
-        //g1.rotate(ang * PI/ 50.0);
+        g1.rotate(ang * PI/ 50.0);
         //rotate(frameCount * PI/ 50.0);
         psh = myBoxG1(15,n);
         
@@ -465,59 +486,9 @@ void mouseClicked()
   println(red(p),green(p),blue(p));
   float NewPos = red(p) + green(p) * 256 + blue(p) * 256 * 256;
   //image(g1,0,0);
-  text.set("idselect", (float)NewPos);
   norm.set("idselect", (float)NewPos);
   }
   
-}
-PShape myBox(float sideSize){
-  float size = sideSize;
-  PShape p = createShape(GROUP);
-  PShape a1 = createShape();
-  PShape a2 = createShape();
-  PShape a3 = createShape();
-  PShape a4 = createShape();
-  PShape a5 = createShape();
-  a1.beginShape();
-  a1.vertex(0, 0, 0, 0 , 0);
-  a1.vertex(0,  0, size, 0 ,40);
-  a1.vertex(0,  size, size, 40, 40);
-  a1.vertex(0,  size, 0, 40 , 0);
-  a1.endShape(CLOSE);
-  
-  a2.beginShape();
-  a2.vertex(0, 0, size, 0 , 0);
-  a2.vertex(0,  size, size, 0, 40);
-  a2.vertex(size,   size, size,40 ,40);
-  a2.vertex(size,  0, size,40, 0);
-  a2.endShape(CLOSE);
-  
-  a3.beginShape();
-  a3.vertex(size, 0, 0, 40, 40);
-  a3.vertex(size, size, 0,0 ,40);
-  a3.vertex(size, size, size,0 ,0);
-  a3.vertex(size,   0, size,40,0);
-  a3.endShape();
-  
-  a4.beginShape();
-  a4.vertex(0,  0, 0,0 ,0);
-  a4.vertex(0, 0, size, 0 ,40);
-  a4.vertex(size, 0, size,40 ,40);
-  a4.vertex(size, 0, 0,40 ,0);
-  a4.endShape();
-  
-  a5.beginShape();
-  a5.vertex(0,  size, 0 , 0, 40);
-  a5.vertex(0,   size, size,0 , 0);
-  a5.vertex(size,  size, size, 40, 0);
-  a5.vertex(size, size, 0, 40, 40);
-  a5.endShape();
-  p.addChild(a1);
-  p.addChild(a2);
-  p.addChild(a3);
-  p.addChild(a4);
-  p.addChild(a5);
-  return p;
 }
 
 PShape myBoxG1(float sideSize, int n){
@@ -562,6 +533,71 @@ PShape myBoxG1(float sideSize, int n){
   
   a5.beginShape();
   a5.attrib("idnum", (float)n);
+  a5.vertex(0,  size, 0 , 0, 40);
+  a5.vertex(0,   size, size,0 , 0);
+  a5.vertex(size,  size, size, 40, 0);
+  a5.vertex(size, size, 0, 40, 40);
+  a5.endShape();
+  p.addChild(a1);
+  p.addChild(a2);
+  p.addChild(a3);
+  p.addChild(a4);
+  p.addChild(a5);
+  return p;
+}
+
+PShape myBoxG1(float sideSize, int n, PGraphics pg){
+  float size = sideSize;
+  PShape p = createShape(GROUP);
+  PShape a1 = createShape();
+  PShape a2 = createShape();
+  PShape a3 = createShape();
+  PShape a4 = createShape();
+  PShape a5 = createShape();
+  a1.beginShape();
+  a1.attrib("idnum", (float)n);
+  a1.fill(0,0,0,0);
+  a1.texture(pg);
+  a1.vertex(0, 0, 0, 0 , 0);
+  a1.vertex(0,  0, size, 0 ,40);
+  a1.vertex(0,  size, size, 40, 40);
+  a1.vertex(0,  size, 0, 40 , 0);
+  a1.endShape(CLOSE);
+  
+  a2.beginShape();
+  a2.attrib("idnum", (float)n);
+  a2.fill(0,0,0,0);
+  a2.texture(pg);
+  a2.vertex(0, 0, size, 0 , 0);
+  a2.vertex(0,  size, size, 0, 40);
+  a2.vertex(size,   size, size,40 ,40);
+  a2.vertex(size,  0, size,40, 0);
+  a2.endShape(CLOSE);
+  
+  a3.beginShape();
+  a3.attrib("idnum", (float)n);
+  a3.fill(0,0,0,0);
+  a3.texture(pg);
+  a3.vertex(size, 0, 0, 40, 40);
+  a3.vertex(size, size, 0,0 ,40);
+  a3.vertex(size, size, size,0 ,0);
+  a3.vertex(size,   0, size,40,0);
+  a3.endShape();
+  
+  a4.beginShape();
+  a4.attrib("idnum", (float)n);
+  a4.fill(0,0,0,0);
+  a4.texture(pg);
+  a4.vertex(0,  0, 0,0 ,0);
+  a4.vertex(0, 0, size, 0 ,40);
+  a4.vertex(size, 0, size,40 ,40);
+  a4.vertex(size, 0, 0,40 ,0);
+  a4.endShape();
+  
+  a5.beginShape();
+  a5.attrib("idnum", (float)n);
+  a5.fill(0,0,0,0);
+  a5.texture(pg);
   a5.vertex(0,  size, 0 , 0, 40);
   a5.vertex(0,   size, size,0 , 0);
   a5.vertex(size,  size, size, 40, 0);

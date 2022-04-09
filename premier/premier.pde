@@ -3,7 +3,6 @@ import java.util.Map;
 
 PGraphics g1;
 PGraphics txtImg;
-PGraphics txtSph;
 PShape ps;
 PShape pstext;
 PShape psh;
@@ -36,10 +35,8 @@ int N1 = 627;
 int N2 = 690;
 int nbfig1[] = new int[N1];
 int nbfig2[] = new int[N2];
-PShape cubTab1[] = new PShape[N1];
-PShape cubTab2[] = new PShape[N2];
+PShape cubTab1[] = new PShape[max(N1,N2)];
 PShape cubText1[] = new PShape[100];
-PShape cubText2[] = new PShape[100];
 
 void setup()
 {
@@ -51,52 +48,25 @@ void setup()
   couleur[2] = color(255,255,0);
   couleur[3] = color(0,100,200);
   couleur[4] = color(255,0,0);
+  for(int i = 0; i < max(N1,N2); i++){
+    cubTab1[i] = myBoxG1(20, i + 1);
+  }
   for(int i = 0; i < N1; i++){
     nbfig1[i] = i + 1;
-    cubTab1[i] = myBoxG1(20, i + 1);
   }
   for(int i=0; i < N2; i++){
     nbfig2[i] = i + 1;
-    cubTab2[i] = myBoxG1(20, i + 1);
   }
   for(int i=0; i < 100; i++){
     cubText1[i] = myBoxG1(20, i + 1);
-    cubText2[i] = myBoxG1(20, i + 1);
   }
   size(1200,800, P3D);
   g1 = createGraphics(1200,800,P3D);
   norm.set("idselect", 12.0f);
   picking.set("idselect", 0.0f);
   txtImg = createGraphics(40,40, P2D);
-  txtSph = createGraphics(40,40);
   background(100,100,100);
   frameRate(10);
-  println("hello world");
-  int a = 5;
-  println(estPremier(a));
-  //construitFigure();
-  for(int i = 0; i <= 150; i++)
-  {
-    if(estPremier(i))
-    {
-      println(i);
-    }
-  }
-  println(estParfait(496)); //renvoie vrai
-  println(estParfait(13)); // renvoie faux
-  //println(estAbondant(8)); // renvoie vrai
-  //println(estAbondant(10)); // renvoie faux
-  for(int i = 0; i <= 25; i++)
-  {
-    if(estAbondant(i))
-    {
-      println(i + ": est abondant");
-    }
-  }
-  eyeX = width/2;
-  eyeY = height/2;
-  eyeZ = d;
-
 
 }
 
@@ -109,8 +79,6 @@ void draw()
     if (ang>=360*50){
       ang=0;
     }
-    
-
     background(100);
     textSize(32);
     if(fig1 != f1(1) || fig2 != f2(1)){
@@ -212,13 +180,13 @@ void draw()
         pushMatrix();
         translate(3* width/4, height/2);
         rotate(frameCount * PI/ 50.0);
-        psh = cubTab2[n-1];
+        psh = cubTab1[n-1];
         c = couleur1(nbfig2[0]);
         shader(norm);
         psh.setFill(c);
         shape(psh);
         resetShader();
-        pshtext = cubText2[n-1];
+        pshtext = cubText1[n-1];
         shader(text);
         txtImg.beginDraw();
         s = "" + nbfig2[n-1];
@@ -237,7 +205,7 @@ void draw()
           for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
            c = couleur1(nbfig2[n-1]);
            pushMatrix();
-           psh = cubTab2[n-1];
+           psh = cubTab1[n-1];
            translate(i* 5 *cos(angle), i* 5 *sin(angle));
            if(n < 100){
              shader(norm);
@@ -246,7 +214,7 @@ void draw()
               resetShader();
               
               shader(text);
-              pshtext = cubText2[n-1];
+              pshtext = cubText1[n-1];
               s = "" + nbfig2[n-1];
               txtImg.beginDraw();
               txtImg.background(c,0);
@@ -272,8 +240,6 @@ void draw()
       popMatrix();  
       
      popMatrix();
-    int p = g1.get(mouseX, mouseY);
-    
 }
 
 int couleur1(int n){

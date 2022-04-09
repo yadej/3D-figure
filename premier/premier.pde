@@ -84,6 +84,7 @@ void setup()
 
 void draw()
 {    
+  /*
     background(100);
     
     //camera(width/2,height/2,0, 0,0,0,0,1,0);
@@ -220,7 +221,7 @@ void draw()
       }
       popMatrix();
       
-  
+  */
 }
 
 int couleur1(int n){
@@ -445,6 +446,7 @@ void mouseClicked()
   g1.endDraw();
   int p = g1.get(mouseX, mouseY);
   println(red(p),green(p),blue(p));
+  image(g1,0,0);
   
 }
 PShape myBox(float sideSize){

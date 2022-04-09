@@ -27,6 +27,7 @@ int c;
 int boucle1 = 22;
 int boucle2 = 15;
 int ang = 0;
+int rate = 1;
 float eyeX, eyeY,eyeZ;
 int d = 200;
 int dir;
@@ -62,7 +63,7 @@ void setup()
   }
   size(1200,800, P3D);
   g1 = createGraphics(1200,800,P3D);
-  norm.set("idselect", 12.0f);
+  norm.set("idselect", 1.0f);
   picking.set("idselect", 0.0f);
   txtImg = createGraphics(40,40, P2D);
   background(100,100,100);
@@ -75,7 +76,7 @@ void draw()
   
     
     
-    ang++;
+    ang+= rate;
     if (ang>=360*50){
       ang=0;
     }
@@ -95,7 +96,7 @@ void draw()
       stroke(128);
       pushMatrix();
       translate(width/4,height/2);
-      rotate(frameCount * PI/ 50.0);
+      rotate(rate*frameCount * PI/ 50.0);
       
       ps = cubTab1[0];
       //rotate(2 * frameCount * PI/ 60.0);
@@ -108,7 +109,7 @@ void draw()
       shader(text);
       pstext = cubText1[0];
       txtImg.beginDraw();
-      txtImg.background(c);
+      txtImg.background(c,0);
       txtImg.textAlign(CENTER);
       txtImg.fill(0);
       txtImg.textSize(15);
@@ -179,7 +180,7 @@ void draw()
         n = 1;
         pushMatrix();
         translate(3* width/4, height/2);
-        rotate(frameCount * PI/ 50.0);
+        rotate(rate*frameCount * PI/ 50.0);
         psh = cubTab1[n-1];
         c = couleur1(nbfig2[0]);
         shader(norm);
@@ -190,7 +191,7 @@ void draw()
         shader(text);
         txtImg.beginDraw();
         s = "" + nbfig2[n-1];
-        txtImg.background(c);
+        txtImg.background(c,0);
         txtImg.textAlign(CENTER);
         txtImg.fill(0);
         txtImg.textSize(15);
@@ -210,22 +211,21 @@ void draw()
            if(n < 100){
              shader(norm);
              psh.setFill(c);
-              shape(psh);
-              resetShader();
-              
-              shader(text);
-              pshtext = cubText1[n-1];
-              s = "" + nbfig2[n-1];
-              txtImg.beginDraw();
-              txtImg.background(c,0);
-              txtImg.textAlign(CENTER);
-              txtImg.fill(0);
-              txtImg.textSize(15);
-              txtImg.text(s,20,20);
-              txtImg.endDraw();
-              pshtext.setTexture(txtImg);
-              shape(pshtext);
-              resetShader();
+             shape(psh);
+             resetShader();        
+             shader(text);
+             pshtext = cubText1[n-1];
+             s = "" + nbfig2[n-1];
+             txtImg.beginDraw();
+             txtImg.background(c,0);
+             txtImg.textAlign(CENTER);
+             txtImg.fill(0);
+             txtImg.textSize(15);
+             txtImg.text(s,20,20);
+             txtImg.endDraw();
+             pshtext.setTexture(txtImg);
+             shape(pshtext);
+             resetShader();
             }else{
               shader(norm);
               psh.setFill(c);
@@ -259,19 +259,6 @@ int couleur1(int n){
        hm.put(coul,couleur[4]);
    }
    return hm.get(coul);
-}
-void couleur2(int n){
-  if(estNeg(n)){
-          psh.setFill(couleur[0]);
-        }else if(estParfait(n)){
-          psh.setFill(couleur[1]);
-        }else if(estPremier(n)){
-          psh.setFill(couleur[2]);
-        }else if(estAbondant(n)){
-          psh.setFill(couleur[3]);
-        }else if(estDefaillant(n)){
-          psh.setFill(couleur[4]);
-        }
 }
 
 void drawF(){
@@ -400,7 +387,6 @@ void mouseClicked()
   g1.loadPixels();
   g1.beginDraw();
   g1.background(color(-1));
-   //preparation du dessin ici (translate, rotate, etc
   g1.shader(picking);
   g1.rotateX(PI/6);
   g1.pushMatrix();
@@ -490,7 +476,6 @@ PShape myBoxG1(float sideSize, int n){
   PShape a3 = createShape();
   PShape a4 = createShape();
   PShape a5 = createShape();
-  PShape a6 = createShape();
   a1.beginShape();
   a1.attrib("idnum", (float)n);
   a1.vertex(0, 0, 0, 0 , 0);
@@ -530,13 +515,7 @@ PShape myBoxG1(float sideSize, int n){
   a5.vertex(size,  size, size, 40, 0);
   a5.vertex(size, size, 0, 40, 40);
   a5.endShape();
-  a6.beginShape();
-  a6.attrib("idnum", (float)n);
-  a6.vertex(0,  size, 0 , 0, 40);
-  a6.vertex(0,   size, size,0 , 0);
-  a6.vertex(size,  size, size, 40, 0);
-  a6.vertex(size, size, 0, 40, 40);
-  a6.endShape();
+  
   p.addChild(a1);
   p.addChild(a2);
   p.addChild(a3);
@@ -670,7 +649,13 @@ void keyPressed(){
   if(key == 'a' && boucle2< 36){
     boucle2 += 2;  
   }
-  if(key == 'b' && boucle2 > 5){
+  if(key == 'b' && boucle2 > 9){
     boucle2 -= 2;
+  }
+  if(key == 'w'){
+    rate++;
+  }
+  if(key == 'x'){
+    rate--;
   }
 }

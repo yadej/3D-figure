@@ -22,6 +22,8 @@ int a;
 int n;
 int k;
 int c;
+int boucle1 = 50;
+int boucle2 = 37;
 float ang = 0;
 float eyeX, eyeY,eyeZ;
 int d = 200;
@@ -84,7 +86,6 @@ void setup()
 
 void draw()
 {    
-  /*
     background(100);
     
     //camera(width/2,height/2,0, 0,0,0,0,1,0);
@@ -221,7 +222,6 @@ void draw()
       }
       popMatrix();
       
-  */
 }
 
 int couleur1(int n){
@@ -381,6 +381,7 @@ void mouseClicked()
   g1.background(color(-1));
    //preparation du dessin ici (translate, rotate, etc
   g1.shader(picking);
+  g1.rotateX(PI/6);
   g1.pushMatrix();
       g1.translate(width/4,height/2);
       //g1.rotate(frameCount * PI/ 50.0);
@@ -423,17 +424,16 @@ void mouseClicked()
         g1.pushMatrix();
         g1.translate(3* width/4, height/2);
         //rotate(frameCount * PI/ 50.0);
-        psh = createShape(SPHERE,15);
-        psh.attrib("idnum", (float)n);
+        psh = myBoxG1(12,n);
+        
         g1.shape(psh);
         n++;
         for(int i = 4;i < 37; i = i + 2){
           g1.translate(0,0,-20);
           for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
             g1.pushMatrix();
-            psh = createShape(SPHERE,15);
+            psh = myBoxG1(12,n);
             g1.translate(i* 5 *cos(ang), i* 5 *sin(ang));
-            psh.attrib("idnum", (float)n);
             g1.shape(psh);
             g1.popMatrix();
             n++;
@@ -446,7 +446,7 @@ void mouseClicked()
   g1.endDraw();
   int p = g1.get(mouseX, mouseY);
   println(red(p),green(p),blue(p));
-  image(g1,0,0);
+  //image(g1,0,0);
   
 }
 PShape myBox(float sideSize){
@@ -553,6 +553,8 @@ PShape myBoxG1(float sideSize, int n){
   p.addChild(a5);
   return p;
 }
+
+
 int sd(int n)
 {
   int somme = 0;

@@ -2,6 +2,7 @@
 uniform mat4 transform;
 uniform mat3 normalMatrix;
 uniform vec3 lightNormal;
+uniform float idselect;
 
 attribute vec4 position;
 attribute vec4 color;
@@ -15,7 +16,7 @@ varying float vertexid;
 
 void main()
 {
-  gl_Position = transform * position;
+	gl_Position = transform * position;
+	vertColor = color;
   vertexid = idnum;
-  
 }

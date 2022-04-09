@@ -7,6 +7,7 @@ PGraphics txtSph;
 PShape ps;
 PShape psh;
 PShader text;
+PShader norm;
 PShader picking;
 HashMap<String,Integer> hm = new HashMap<String,Integer>();
 String s;
@@ -38,6 +39,7 @@ void setup()
 {
   text = loadShader("TextFrag.glsl","TextVertex.glsl");
   picking = loadShader("PickerFrag.glsl","PickerVert.glsl");
+  norm = loadShader("normalFrag.glsl","normalVert.glsl");
   couleur[0] = color(128,128,0);
   couleur[1] = color(0,255,0);
   couleur[2] = color(255,255,0);
@@ -51,7 +53,8 @@ void setup()
   }
   size(1200,800, P3D);
   g1 = createGraphics(1200,800,P3D);
-  picking.set("idselect", 3.0f);
+  text.set("idselect", 0.0f);
+  norm.set("idselect", 0.0f);
   txtImg = createGraphics(40,40, P2D);
   txtSph = createGraphics(40,40);
   background(100,100,100);
@@ -88,14 +91,13 @@ void setup()
 void draw()
 {    
   
-    //background(100);
+    background(100);
     
     //camera(width/2,height/2,0, 0,0,0,0,1,0);
     ang++;
     if (ang>=360){
       ang=0;
     }
-    /*
     eyeY = (height/2)-d*(sin(radians(ang)));
     eyeX = d*cos(radians(ang));
     //perspective();
@@ -103,7 +105,6 @@ void draw()
     //stroke(0);
     textSize(32);
     if(fig1 != f1(1) || fig2 != f2(1)){
-      resetShader();
       drawF();
     }
     //affiche fonction
@@ -116,13 +117,13 @@ void draw()
       pushMatrix();
       translate(width/4,height/2);
       //rotate(frameCount * PI/ 50.0);
-      ps = myBox(20);
+      ps = myBoxG1(20,1);
       //rotate(2 * frameCount * PI/ 60.0);
       c = couleur1(1);
       s = "" + nbfig1[0];
+      shader(text);
       txtImg.beginDraw();
       txtImg.background(c);
-      //txtSph.background(0, 0, 0, 0);
       txtImg.textAlign(CENTER);
       txtImg.fill(0);
       txtImg.textSize(15);
@@ -130,39 +131,41 @@ void draw()
       txtImg.endDraw();
       ps.setTexture(txtImg);
       shape(ps);
+      resetShader();
       a = 1;
       n = 2;
       k = 0;
       dir = 0;
-      shader(text);
-      for(int i = 1; i<50; i++){
-        if(i == 49)a--;
+      for(int i = 1; i<boucle1; i++){
+        if(i == boucle1-1)a--;
         for(int j = 0; j < a ;j++){
-          ps = myBox(20);
+          ps = myBoxG1(20, n);
           if(dir == 0)translate(20,0);
           if(dir == 1)translate(0,-20);
           if(dir == 2)translate(-20,0);
           if(dir == 3)translate(0,20);
           if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
           c = couleur1(nbfig1[n]);
-          if(n < 100){
+         if(n < 100){
+               shader(text);
               s = "" + nbfig1[n];
               txtImg.beginDraw();
-              
               txtImg.background(c);
-              //txtSph.background(0, 0, 0, 0);
               txtImg.textAlign(CENTER);
               txtImg.fill(0);
               txtImg.textSize(15);
               txtImg.text(s,20,20);
               txtImg.endDraw();
               ps.setTexture(txtImg);
+              shape(ps);
+              resetShader();
           }else{
-            resetShader();
-            //couleur1(nbfig1[n]);
+            shader(norm);
             ps.setFill(c);
+            shape(ps);
+            resetShader();
           }
-          shape(ps);
+      
       
           
           n++;
@@ -182,50 +185,56 @@ void draw()
       popMatrix();
         k = 0;
         n = 1;
-        psh = createShape(SPHERE,15);
         pushMatrix();
         translate(3* width/4, height/2);
         //rotate(frameCount * PI/ 50.0);
-        noStroke();
-        psh = createShape(SPHERE,15);
+        psh = myBoxG1(20,n);
         c = couleur1(nbfig2[0]);
-        psh.setFill(c);
-        shape(psh);
         shader(text);
-        for(int i = 4;i < 37; i = i + 2){
+        txtSph.beginDraw();
+        txtSph.background(c);
+        s = "" + nbfig2[0];
+        txtSph.textAlign(CENTER);
+        txtSph.fill(0);
+        txtSph.textSize(15);
+        txtSph.text(s,25,25);
+        txtSph.endDraw();
+        psh.setTexture(txtSph);
+        shape(psh);
+        resetShader();
+        n++;
+        for(int i = 4;i < boucle2; i = i + 2){
           translate(0,0,-20);
           for(float ang = -PI; ang<PI- PI/i + 0.1; ang+=PI/i) {
-            c = couleur1(nbfig2[n]);
-            pushMatrix();
-            psh = createShape(SPHERE,15);
-            translate(i* 5 *cos(ang), i* 5 *sin(ang));
-            if(n < 100){
+           c = couleur1(nbfig2[n]);
+           pushMatrix();
+           psh = myBoxG1(20,n);
+           translate(i* 5 *cos(ang), i* 5 *sin(ang));
+           if(n < 100){
+             shader(text);
               s = "" + nbfig2[n];
               txtSph.beginDraw();
               txtSph.background(c);
-              //txtSph.background(0, 0, 0, 0);
-              //txtSph.textAlign(CENTER);
+              txtSph.textAlign(CENTER);
               txtSph.fill(0);
-              txtSph.textSize(10);
+              txtSph.textSize(15);
               txtSph.text(s,25,25);
               txtSph.endDraw();
-              noStroke();
-
               psh.setTexture(txtSph);
-
-            }else{
+              shape(psh);
               resetShader();
+            }else{
+              shader(norm);
               psh.setFill(c);
+              shape(psh);
+              resetShader();
             }
-            shape(psh);
             popMatrix();
             n++;
      
         }
       }
-      popMatrix();
-      */
-      
+      popMatrix();      
 }
 
 int couleur1(int n){
@@ -375,7 +384,12 @@ void mouseClicked()
       nbfig2[i]--;
     }
   }
-
+  int mp = get(mouseX,mouseY);
+  if(mouseY < 50){
+    
+  }else if( red(mp) == 100 ){
+    text.set("idselect", 0.0f);
+  }else{
   g1.loadPixels() ;
   g1.beginDraw();
   g1.background(color(-1));
@@ -394,8 +408,8 @@ void mouseClicked()
       k = 0;
       dir = 0;
       n++;
-      for(int i = 1; i<50; i++){
-        if(i == 49)a--;
+      for(int i = 1; i<boucle1; i++){
+        if(i == boucle1-1)a--;
         for(int j = 0; j < a ;j++){
           ps = myBoxG1(20,n);
           if(dir == 0)g1.translate(20,0);
@@ -423,14 +437,14 @@ void mouseClicked()
         k = 0;
         n = 1;
         g1.pushMatrix();
-        g1.translate(3* width/4-10, height/2-10);
+        g1.translate(3* width/4, height/2);
         //g1.rotate(ang * PI/ 50.0);
         //rotate(frameCount * PI/ 50.0);
         psh = myBoxG1(15,n);
         
         g1.shape(psh);
         n++;
-        for(int i = 4;i < 37; i = i + 2){
+        for(int i = 4;i < boucle2; i = i + 2){
           g1.translate(0,0,-20);
           for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
             g1.pushMatrix();
@@ -449,7 +463,11 @@ void mouseClicked()
   int p = g1.get(mouseX, mouseY);
   println(red(p) + green(p) * 256 + blue(p) * 256 * 256);
   println(red(p),green(p),blue(p));
-  image(g1,0,0);
+  float NewPos = red(p) + green(p) * 256 + blue(p) * 256 * 256;
+  //image(g1,0,0);
+  text.set("idselect", (float)NewPos);
+  norm.set("idselect", (float)NewPos);
+  }
   
 }
 PShape myBox(float sideSize){
@@ -605,4 +623,19 @@ int f1(int x){
 
 int f2(int x){
   return x * x * n4 + x * n5 + n6;
+}
+
+void keyPressed(){
+  if(key == 'a' && boucle1<50){
+    boucle1 += 4;  
+  }
+  if(key == 'b' && boucle1 > 17){
+    boucle1 -= 4;
+  }
+  if(key == 'a' && boucle2< 36){
+    boucle2 += 2;  
+  }
+  if(key == 'b' && boucle2 > 5){
+    boucle2 -= 2;
+  }
 }

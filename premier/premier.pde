@@ -27,7 +27,7 @@ int c;
 int boucle1 = 22;
 int boucle2 = 15;
 int ang = 0;
-int rate = 1;
+int rate = 10;
 float eyeX, eyeY,eyeZ;
 int d = 200;
 int dir;
@@ -37,6 +37,7 @@ int N2 = 690;
 int nbfig1[] = new int[N1];
 int nbfig2[] = new int[N2];
 PShape cubTab1[] = new PShape[max(N1,N2)];
+PShape cubPgraphics1[] = new PShape[max(N1,N2)];
 PShape cubText1[] = new PShape[100];
 
 void setup()
@@ -51,6 +52,7 @@ void setup()
   couleur[4] = color(255,0,0);
   for(int i = 0; i < max(N1,N2); i++){
     cubTab1[i] = myBoxG1(20, i + 1);
+    cubPgraphics1[i] = myBoxG1(20, i + 1);
   }
   for(int i = 0; i < N1; i++){
     nbfig1[i] = i + 1;
@@ -76,9 +78,10 @@ void draw()
   
     
     
-    ang+= rate;
+    ang += rate;
+    
     if (ang>=360*50){
-      ang=0;
+      ang =  ang%(360*50);
     }
     background(100);
     textSize(32);
@@ -96,7 +99,7 @@ void draw()
       stroke(128);
       pushMatrix();
       translate(width/4,height/2);
-      rotate(rate*frameCount * PI/ 50.0);
+      rotate(radians(rate*ang * PI/ 50.0));
       
       ps = cubTab1[0];
       //rotate(2 * frameCount * PI/ 60.0);
@@ -180,7 +183,7 @@ void draw()
         n = 1;
         pushMatrix();
         translate(3* width/4, height/2);
-        rotate(rate*frameCount * PI/ 50.0);
+        rotate(radians(rate*ang * PI/ 50.0));
         psh = cubTab1[n-1];
         c = couleur1(nbfig2[0]);
         shader(norm);
@@ -391,11 +394,12 @@ void mouseClicked()
   g1.rotateX(PI/6);
   g1.pushMatrix();
       g1.translate(width/4,height/2);
-      g1.rotate(ang * PI/ 50.0);
+      g1.rotate( radians(rate*ang * PI/ 50.0));
       //g1.rotate(frameCount * PI/ 50.0);
       n = 1;
       //ps = cubTab1[n-1];
-      ps = myBoxG1(20,n);
+      //ps = myBoxG1(20,n);
+      ps = cubPgraphics1[n-1];
       //rotate(2 * frameCount * PI/ 60.0);
       g1.shape(ps);
       a = 1;
@@ -406,7 +410,8 @@ void mouseClicked()
         if(i == boucle1-1)a--;
         for(int j = 0; j < a ;j++){
           //ps = cubTab1[n-1];
-          ps = myBoxG1(20,n);
+          //ps = myBoxG1(20,n);
+          ps = cubPgraphics1[n-1];
           if(dir == 0)g1.translate(20,0);
           if(dir == 1)g1.translate(0,-20);
           if(dir == 2)g1.translate(-20,0);
@@ -433,10 +438,11 @@ void mouseClicked()
         n = 1;
         g1.pushMatrix();
         g1.translate(3* width/4, height/2);
-        g1.rotate(ang * PI/ 50.0);
+        g1.rotate( radians(rate*ang * PI/ 50.0));
         //rotate(frameCount * PI/ 50.0);
         //psh = cubTab2[n-1];
-        psh = myBoxG1(20,n);
+        //psh = myBoxG1(20,n);
+        psh = cubPgraphics1[n-1];
         g1.shape(psh);
         n++;
         for(int i = 4;i < boucle2; i = i + 2){
@@ -444,7 +450,8 @@ void mouseClicked()
           for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
             g1.pushMatrix();
             //psh = cubTab2[n-1];
-            psh = myBoxG1(20,n);
+            //psh = myBoxG1(20,n);
+            psh = cubPgraphics1[n-1];
             g1.translate(i* 5 *cos(angle), i* 5 *sin(angle));
             g1.shape(psh);
             g1.popMatrix();

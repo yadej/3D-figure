@@ -17,20 +17,27 @@ int n3 = 0;
 int n4 = 0;
 int n5 = 1; 
 int n6 = 0;
+//pour les boucles
 int a;
 int n;
 int k;
 int c;
+int dir;
+//Pour les étages du cone et cube
 int boucle1 = 22;
 int boucle2 = 15;
+//Pour la rotation
 int ang = 0;
 int rate = 10;
-int dir;
+//Choix couleur
 color couleur[] = new color[5];
+//Nombre d'element max dans chacune des figures
 int N1 = 627;
 int N2 = 690;
+//Tableau de int pour les elements des figures
 int nbfig1[] = new int[N1];
 int nbfig2[] = new int[N2];
+//Tableau de PShape pour pas avoir a recalculer a chaque fois un nouveau cube
 PShape cubTab1[] = new PShape[max(N1,N2)];
 PShape cubPgraphics1[] = new PShape[max(N1,N2)];
 PShape cubText1[] = new PShape[100];
@@ -88,7 +95,7 @@ void draw()
     rotateX(PI/6);
     stroke(128);
     dessinPyramide();
-    dessinCone(); //<>// //<>//
+    dessinCone();  //<>//
     popMatrix();
     
         

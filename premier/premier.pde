@@ -5,21 +5,18 @@ PGraphics g1;
 PGraphics txtImg;
 PShape ps;
 PShape pstext;
-PShape psh;
-PShape pshtext;
 PShader text;
 PShader norm;
 PShader picking;
 HashMap<String,Integer> hm = new HashMap<String,Integer>();
 String s;
+//Que pour le polynome
 int n1 = 0;
 int n2 = 1; 
 int n3 = 0;
 int n4 = 0;
 int n5 = 1; 
 int n6 = 0;
-int fig1 = 0;
-int fig2 = 0;
 int a;
 int n;
 int k;
@@ -28,8 +25,6 @@ int boucle1 = 22;
 int boucle2 = 15;
 int ang = 0;
 int rate = 10;
-float eyeX, eyeY,eyeZ;
-int d = 200;
 int dir;
 color couleur[] = new color[5];
 int N1 = 627;
@@ -65,7 +60,7 @@ void setup()
   }
   size(1200,800, P3D);
   g1 = createGraphics(1200,800,P3D);
-  norm.set("idselect", 1.0f);
+  norm.set("idselect", 0.0f);
   picking.set("idselect", 0.0f);
   txtImg = createGraphics(40,40, P2D);
   background(100,100,100);
@@ -77,7 +72,7 @@ void draw()
 {     //<>//
   
     
-    
+    //Calcul du taux rotation
     ang += rate;
     
     if (ang>=360*50){
@@ -85,166 +80,20 @@ void draw()
     }
     background(100);
     textSize(32);
-    if(fig1 != f1(1) || fig2 != f2(1)){
-      drawF();
-    }
+    
+    drawF();
+    
     //affiche fonction
     pushMatrix();
     rotateX(PI/6);
+    stroke(128);
+    dessinPyramide();
+    dessinCone(); //<>// //<>//
+    popMatrix();
     
-    //camera(eyeX, eyeY, eyeZ, width/2, height/2 +100, 10, 0, 1, 0);
-    //rotateY(PI/6);
-    //rotateZ(PI/6);
-    
-      stroke(128);
-      pushMatrix();
-      translate(width/4,height/2);
-      rotate(radians(ang * PI/ 50.0));
-      
-      ps = cubTab1[0];
-      //rotate(2 * frameCount * PI/ 60.0);
-      c = couleur1(nbfig1[0]);
-      s = "" + nbfig1[0];
-      shader(norm);
-      ps.setFill(c); //<>//
-      shape(ps);
-      resetShader();
-      shader(text);
-      pstext = cubText1[0];
-      txtImg.beginDraw();
-      txtImg.background(c,0);
-      txtImg.textAlign(CENTER);
-      txtImg.fill(0);
-      txtImg.textSize(15);
-      txtImg.text(s,20,20);
-      txtImg.endDraw();
-      pstext.setTexture(txtImg);
-      shape(pstext);
-      resetShader();
-      
-      a = 1; //<>//
-      n = 2;
-      k = 0;
-      dir = 0;
-      for(int i = 1; i<boucle1; i++){
-        if(i == boucle1-1)a--;
-        for(int j = 0; j < a ;j++){
-          ps = cubTab1[n-1];
-          if(dir == 0)translate(20,0);
-          if(dir == 1)translate(0,-20);
-          if(dir == 2)translate(-20,0);
-          if(dir == 3)translate(0,20);
-          if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
-          c = couleur1(nbfig1[n-1]);
-          if(n < 100){
-              shader(norm);
-              ps.setFill(c);
-              shape(ps);
-              resetShader();
-              pstext = cubText1[n-1];
-              shader(text);
-              txtImg.beginDraw();
-              txtImg.clear();
-              s = "" + nbfig1[n-1];
-              txtImg.background(c, 0);
-              txtImg.textAlign(CENTER);
-              txtImg.fill(0);
-              txtImg.textSize(15);
-              txtImg.text(s,20,20);
-              txtImg.endDraw();
-              pstext.setTexture(txtImg);
-              shape(pstext);
-              resetShader();
-          }else{
-            shader(norm);
-            ps.setFill(c);
-            shape(ps);
-            resetShader();
-          }
-      
-      
-          
-          n++;
-        }
-        k++;
-        if(k ==2){
-          a++;
-          k = 0;
-        }
-        if(dir == 3){
-           dir = 0;
-         }else{
-            dir++;
-         }
-         
-      }
-      popMatrix();
-        k = 0;
-        n = 1;
-        pushMatrix();
-        translate(3* width/4, height/2);
-        rotate(radians(ang * PI/ 50.0));
-        psh = cubTab1[n-1];
-        c = couleur1(nbfig2[0]);
-        shader(norm);
-        psh.setFill(c);
-        shape(psh);
-        resetShader();
-        pshtext = cubText1[n-1];
-        shader(text);
-        txtImg.beginDraw();
-        s = "" + nbfig2[n-1];
-        txtImg.background(c,0);
-        txtImg.textAlign(CENTER);
-        txtImg.fill(0);
-        txtImg.textSize(15);
-        txtImg.text(s,20,20);
-        txtImg.endDraw();
-        pshtext.setTexture(txtImg);
-        shape(pshtext);
-        resetShader();
-        n++;
-        for(int i = 4;i < boucle2; i = i + 2){
-          translate(0,0,-20);
-          for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
-           c = couleur1(nbfig2[n-1]);
-           pushMatrix();
-           psh = cubTab1[n-1];
-           translate(i* 5 *cos(angle), i* 5 *sin(angle));
-           if(n < 100){
-             shader(norm);
-             psh.setFill(c);
-             shape(psh);
-             resetShader();        
-             shader(text);
-             pshtext = cubText1[n-1];
-             s = "" + nbfig2[n-1];
-             txtImg.beginDraw();
-             txtImg.background(c,0);
-             txtImg.textAlign(CENTER);
-             txtImg.fill(0);
-             txtImg.textSize(15);
-             txtImg.text(s,20,20);
-             txtImg.endDraw();
-             pshtext.setTexture(txtImg);
-             shape(pshtext);
-             resetShader();
-            }else{
-              shader(norm);
-              psh.setFill(c);
-              shape(psh);
-              resetShader();
-            }
-            popMatrix();
-            n++;
-     
-        }
-      }
-      popMatrix();  
-      
-     popMatrix();
+        
 }
-
+//calcule couleur par hashage
 int couleur1(int n){
    String coul = "" + n;
    if(hm.containsKey(coul)){
@@ -263,7 +112,7 @@ int couleur1(int n){
    }
    return hm.get(coul);
 }
-
+//Dessine les polynomes
 void drawF(){
     fill(100);
     noStroke();
@@ -294,6 +143,7 @@ void drawF(){
 
 void mouseClicked()
 {
+  //Change les polynomes
   if(mouseX >= 120 && mouseX < 120+20 && mouseY >= 5 && mouseY < 5+20)
   {
     n1++;
@@ -384,9 +234,11 @@ void mouseClicked()
   if(mouseY < 50){
     
   }else if( red(mp) == 100 ){
+    //Reset le picking
     norm.set("idselect", 0.0f);
+    picking.set("idselect", 0.0f);
   }else{
- 
+   //Met en place pour le picking un PGraphics
   g1.loadPixels();
   g1.beginDraw();
   g1.background(color(-1));
@@ -439,21 +291,16 @@ void mouseClicked()
         g1.pushMatrix();
         g1.translate(3* width/4, height/2);
         g1.rotate( radians(ang * PI/ 50.0));
-        //rotate(frameCount * PI/ 50.0);
-        //psh = cubTab2[n-1];
-        //psh = myBoxG1(20,n);
-        psh = cubPgraphics1[n-1];
-        g1.shape(psh);
+        ps = cubPgraphics1[n-1];
+        g1.shape(ps);
         n++;
         for(int i = 4;i < boucle2; i = i + 2){
           g1.translate(0,0,-20);
           for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
             g1.pushMatrix();
-            //psh = cubTab2[n-1];
-            //psh = myBoxG1(20,n);
-            psh = cubPgraphics1[n-1];
+            ps = cubPgraphics1[n-1];
             g1.translate(i* 5 *cos(angle), i* 5 *sin(angle));
-            g1.shape(psh);
+            g1.shape(ps);
             g1.popMatrix();
             n++;
      
@@ -467,6 +314,7 @@ void mouseClicked()
   println(red(pixel) + green(pixel) * 256 + blue(pixel) * 256 * 256);
   println(red(pixel),green(pixel),blue(pixel));
   float NewPos = red(pixel) + green(pixel) * 256 + blue(pixel) * 256 * 256;
+  //Met en place le picking si on click pas le block déja choisi
   if(red(pixel) != 128.0){
     norm.set("idselect", (float)NewPos);
     picking.set("idselect", (float)NewPos);
@@ -474,7 +322,7 @@ void mouseClicked()
   }
   
 }
-
+//Dessine des cubes avec idnum = n
 PShape myBoxG1(float sideSize, int n){
   float size = sideSize;
   PShape p = createShape(GROUP);
@@ -530,73 +378,7 @@ PShape myBoxG1(float sideSize, int n){
   p.addChild(a5);
   return p;
 }
-
-PShape myBoxG1(float sideSize, int n, PGraphics pg){
-  float size = sideSize;
-  PShape p = createShape(GROUP);
-  PShape a1 = createShape();
-  PShape a2 = createShape();
-  PShape a3 = createShape();
-  PShape a4 = createShape();
-  PShape a5 = createShape();
-  a1.beginShape();
-  a1.attrib("idnum", (float)n);
-  a1.fill(0,0,0,0);
-  a1.texture(pg);
-  a1.vertex(0, 0, 0, 0 , 0);
-  a1.vertex(0,  0, size, 0 ,40);
-  a1.vertex(0,  size, size, 40, 40);
-  a1.vertex(0,  size, 0, 40 , 0);
-  a1.endShape(CLOSE);
-  
-  a2.beginShape();
-  a2.attrib("idnum", (float)n);
-  a2.fill(0,0,0,0);
-  a2.texture(pg);
-  a2.vertex(0, 0, size, 0 , 0);
-  a2.vertex(0,  size, size, 0, 40);
-  a2.vertex(size,   size, size,40 ,40);
-  a2.vertex(size,  0, size,40, 0);
-  a2.endShape(CLOSE);
-  
-  a3.beginShape();
-  a3.attrib("idnum", (float)n);
-  a3.fill(0,0,0,0);
-  a3.texture(pg);
-  a3.vertex(size, 0, 0, 40, 40);
-  a3.vertex(size, size, 0,0 ,40);
-  a3.vertex(size, size, size,0 ,0);
-  a3.vertex(size,   0, size,40,0);
-  a3.endShape();
-  
-  a4.beginShape();
-  a4.attrib("idnum", (float)n);
-  a4.fill(0,0,0,0);
-  a4.texture(pg);
-  a4.vertex(0,  0, 0,0 ,0);
-  a4.vertex(0, 0, size, 0 ,40);
-  a4.vertex(size, 0, size,40 ,40);
-  a4.vertex(size, 0, 0,40 ,0);
-  a4.endShape();
-  
-  a5.beginShape();
-  a5.attrib("idnum", (float)n);
-  a5.fill(0,0,0,0);
-  a5.texture(pg);
-  a5.vertex(0,  size, 0 , 0, 40);
-  a5.vertex(0,   size, size,0 , 0);
-  a5.vertex(size,  size, size, 40, 0);
-  a5.vertex(size, size, 0, 40, 40);
-  a5.endShape();
-  p.addChild(a1);
-  p.addChild(a2);
-  p.addChild(a3);
-  p.addChild(a4);
-  p.addChild(a5);
-  return p;
-}
-
-
+//Calcule du nombre de diviseurs pour un n donné
 int sd(int n)
 {
   int somme = 0;
@@ -645,8 +427,152 @@ int f1(int x){
 int f2(int x){
   return x * x * n4 + x * n5 + n6;
 }
+//Dessin pyramide
+void dessinPyramide(){
+  pushMatrix();
+  translate(width/4,height/2);
+  rotate(radians(ang * PI/ 50.0));
+  ps = cubTab1[0];
+  c = couleur1(nbfig1[0]);
+  s = "" + nbfig1[0];
+  shader(norm);
+  ps.setFill(c);
+  shape(ps);
+  resetShader();
+  shader(text);
+  pstext = cubText1[0];
+  txtImg.beginDraw();
+  txtImg.background(c,0);
+  txtImg.textAlign(CENTER);
+  txtImg.fill(0);
+  txtImg.textSize(15);
+  txtImg.text(s,20,20);
+  txtImg.endDraw();
+  pstext.setTexture(txtImg);
+  shape(pstext);
+  resetShader();
+  a = 1;
+  n = 2;
+  k = 0;
+  dir = 0;
+  for(int i = 1; i<boucle1; i++){
+    if(i == boucle1-1)a--;
+    for(int j = 0; j < a ;j++){
+      ps = cubTab1[n-1];
+      if(dir == 0)translate(20,0);
+      if(dir == 1)translate(0,-20);
+      if(dir == 2)translate(-20,0);
+      if(dir == 3)translate(0,20);
+      if(k == 0 && a%2 ==1 && j == a-1)translate(0,0,-20);
+      c = couleur1(nbfig1[n-1]);
+      if(n < 100){
+        shader(norm);
+        ps.setFill(c);
+        shape(ps);
+        resetShader();
+        pstext = cubText1[n-1];
+        shader(text);
+        txtImg.beginDraw();
+        txtImg.clear();
+        s = "" + nbfig1[n-1];
+        txtImg.background(c, 0);
+        txtImg.textAlign(CENTER);
+        txtImg.fill(0);
+        txtImg.textSize(15);
+        txtImg.text(s,20,20);
+        txtImg.endDraw();
+        pstext.setTexture(txtImg);
+        shape(pstext);
+        resetShader();
+      }else{
+        shader(norm);
+        ps.setFill(c);
+        shape(ps);
+        resetShader();
+      }
+      n++;
+    }
+    k++;
+    if(k ==2){
+      a++;
+      k = 0;
+    }
+    if(dir == 3){
+      dir = 0;
+    }else{
+      dir++;
+    }
+  }
+  popMatrix();
+}
+
+//Dessin Cone
+void dessinCone(){
+  pushMatrix();
+  k = 0;
+  n = 1;
+  translate(3* width/4, height/2);
+  rotate(radians(ang * PI/ 50.0));
+  ps = cubTab1[n-1];
+  c = couleur1(nbfig2[0]);
+  shader(norm);
+  ps.setFill(c);
+  shape(ps);
+  resetShader();
+  pstext = cubText1[n-1];
+  shader(text);
+  txtImg.beginDraw();
+  s = "" + nbfig2[n-1];
+  txtImg.background(c,0);
+  txtImg.textAlign(CENTER);
+  txtImg.fill(0);
+  txtImg.textSize(15);
+  txtImg.text(s,20,20);
+  txtImg.endDraw();
+  pstext.setTexture(txtImg);
+  shape(pstext);
+  resetShader();
+  n++;
+  for(int i = 4;i < boucle2; i = i + 2){
+    translate(0,0,-20);
+    for(float angle = -PI; angle<PI- PI/i + 0.1; angle+=PI/i) {
+      c = couleur1(nbfig2[n-1]);
+      pushMatrix();
+      ps = cubTab1[n-1];
+      translate(i* 5 *cos(angle), i* 5 *sin(angle));
+      if(n < 100){
+        shader(norm);
+        ps.setFill(c);
+        shape(ps);
+        resetShader();        
+        shader(text);
+        pstext = cubText1[n-1];
+        s = "" + nbfig2[n-1];
+        txtImg.beginDraw();
+        txtImg.background(c,0);
+        txtImg.textAlign(CENTER);
+        txtImg.fill(0);
+        txtImg.textSize(15);
+        txtImg.text(s,20,20);
+        txtImg.endDraw();
+        pstext.setTexture(txtImg);
+        shape(pstext);
+        resetShader();
+      }else{
+        shader(norm);
+        ps.setFill(c);
+        shape(ps);
+        resetShader();
+      }
+      popMatrix();
+      n++;
+    }
+  }
+  popMatrix();      
+}
 
 void keyPressed(){
+  //Augmente ou decremente le nombre de cube
   if(key == 'a' && boucle1<50){
     boucle1 += 4;  
   }
@@ -659,6 +585,7 @@ void keyPressed(){
   if(key == 'b' && boucle2 > 9){
     boucle2 -= 2;
   }
+  //change le niveau de rotation
   if(key == 'w'){
     rate+=5;
   }

@@ -99,7 +99,7 @@ void draw()
       stroke(128);
       pushMatrix();
       translate(width/4,height/2);
-      rotate(radians(rate*ang * PI/ 50.0));
+      rotate(radians(ang * PI/ 50.0));
       
       ps = cubTab1[0];
       //rotate(2 * frameCount * PI/ 60.0);
@@ -183,7 +183,7 @@ void draw()
         n = 1;
         pushMatrix();
         translate(3* width/4, height/2);
-        rotate(radians(rate*ang * PI/ 50.0));
+        rotate(radians(ang * PI/ 50.0));
         psh = cubTab1[n-1];
         c = couleur1(nbfig2[0]);
         shader(norm);
@@ -394,7 +394,7 @@ void mouseClicked()
   g1.rotateX(PI/6);
   g1.pushMatrix();
       g1.translate(width/4,height/2);
-      g1.rotate( radians(rate*ang * PI/ 50.0));
+      g1.rotate( radians(ang * PI/ 50.0));
       //g1.rotate(frameCount * PI/ 50.0);
       n = 1;
       //ps = cubTab1[n-1];
@@ -438,7 +438,7 @@ void mouseClicked()
         n = 1;
         g1.pushMatrix();
         g1.translate(3* width/4, height/2);
-        g1.rotate( radians(rate*ang * PI/ 50.0));
+        g1.rotate( radians(ang * PI/ 50.0));
         //rotate(frameCount * PI/ 50.0);
         //psh = cubTab2[n-1];
         //psh = myBoxG1(20,n);
@@ -660,9 +660,12 @@ void keyPressed(){
     boucle2 -= 2;
   }
   if(key == 'w'){
-    rate++;
+    rate+=5;
   }
   if(key == 'x'){
-    rate--;
+    rate-=5;
+  }
+  if(key == 'c'){
+    rate = 0;
   }
 }

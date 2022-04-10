@@ -87,9 +87,7 @@ void draw()
     }
     background(100);
     textSize(32);
-    
     drawF();
-    
     //affiche fonction
     pushMatrix();
     rotateX(PI/6);
@@ -238,7 +236,7 @@ void mouseClicked()
   }
   
   int mp = get(mouseX,mouseY);
-  if(mouseY < 50){
+  if(mouseY < 80){
     
   }else if( red(mp) == 100 ){
     //Reset le picking

@@ -252,12 +252,8 @@ void mouseClicked()
   g1.pushMatrix();
       g1.translate(width/4,height/2);
       g1.rotate( radians(ang * PI/ 50.0));
-      //g1.rotate(frameCount * PI/ 50.0);
       n = 1;
-      //ps = cubTab1[n-1];
-      //ps = myBoxG1(20,n);
       ps = cubPgraphics1[n-1];
-      //rotate(2 * frameCount * PI/ 60.0);
       g1.shape(ps);
       a = 1;
       k = 0;
@@ -266,8 +262,6 @@ void mouseClicked()
       for(int i = 1; i<boucle1; i++){
         if(i == boucle1-1)a--;
         for(int j = 0; j < a ;j++){
-          //ps = cubTab1[n-1];
-          //ps = myBoxG1(20,n);
           ps = cubPgraphics1[n-1];
           if(dir == 0)g1.translate(20,0);
           if(dir == 1)g1.translate(0,-20);
